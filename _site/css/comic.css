@@ -1,0 +1,264 @@
+/*CSS for comic site*/
+
+body {
+  font-family: 'Droid Sans', sans-serif;
+  font-size: 16px;
+  line-height: 1.5em;
+  padding-top: 20px;
+  background-color: rgba(211,224,234,0.4);
+  background-image: url(/images/background.jpg);
+  background-blend-mode: lighten;
+}
+
+
+/* HEADER STYLES */
+/*=============================*/
+
+.jumbotron {
+  background-color: rgba(22,135,167,0.9);
+  font-family: 'Fredoka One', cursive;
+}
+
+.container .jumbotron {
+  padding: 30px 0px 30px 0px;
+  text-align: center; //left, right, or center
+}
+
+.jumbotron h1 {
+  font-family: 'Fredoka One', cursive;
+}
+
+.jumbotron p {
+  font-family: 'Roboto', sans-serif;
+  color: #072027;
+  font-weight: bold;
+}
+
+.jumbotron a {
+  color: #f6f5f5;
+  text-decoration: underline;
+}
+
+.jumbotron a:visited {
+  color: #f6f5f5;
+}
+
+
+/* CUBIC ANIMATION STYLES */
+.stage {
+  display: inline-block;
+  position: relative;
+  width: 100px;
+  height: 100px;
+  transform-style: preserve-3d;
+  perspective: 5000px;
+  transition: transform 4s ease;
+}
+
+.stage:hover {
+  transform: rotateX(360deg) rotateY(360deg)
+}
+
+.stage div {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100px;
+  height: 100px;
+  text-align: center;
+  font: bold 50px/100px "arial";
+  opacity: 0.8;
+}
+.stage div:nth-child(1){
+  background-color: #eaeef7;
+  transform: translateZ(50px);
+}
+.stage div:nth-child(2){
+  background-color: #2d5872;
+  transform: rotateX(90deg) translateZ(50px);
+}
+.stage div:nth-child(3){
+  background-color: #7ba696;
+  transform: rotateX(180deg) translateZ(50px);
+}
+.stage div:nth-child(4){
+  background-color: #beba9f;
+  transform: rotateX(270deg) translateZ(50px);
+}
+.stage div:nth-child(5){
+  background-color: #bf9663;
+  transform: rotateY(90deg) translateZ(50px);
+}
+.stage div:nth-child(6){
+  background-color: #011640; 
+  transform: rotateY(-90deg) translateZ(50px);
+}
+
+/* NAVBAR STYLES */
+/*=============================*/
+
+.navbar_ov{
+  padding: 0;
+}
+.navbar {
+  margin-bottom: 0px;
+  background-color: #f0efef;
+  opacity: 0.9;
+}
+
+.navbar .navbar-default {
+  display: inline-block;
+  float: none;
+  vertical-align: top;
+  margin-bottom: none;
+}
+
+.navbar .navbar-nav {
+  font-family: 'Arvo', serif;
+  margin-left: auto;
+  display: inline-block;
+  float: none;
+  vertical-align: top;
+}
+
+.navbar .navbar-collapse {
+  text-align: center;
+}
+
+
+/* PANEL STYLES */
+/*=============================*/
+.panel {
+  padding: 0 80px;
+  background-color: #f6f5f5;
+  min-height: 1800px;
+  color: #333333;
+}
+
+.panel a{
+  color: #248ca8;
+}
+
+/* HOMEPAGE STYLES */
+/*=============================*/
+
+.panel p.homepage{
+  font-family: 'Roboto', 'EB Garamond', sans-serif;
+}
+
+.panel h1.homepage {
+  font-size: 30px;
+  line-height: 2.0em;
+  font-weight: regular;
+  font-family: 'Arvo', 'EB Garamond', serif;
+}
+
+.panel h2.homepage {
+  font-size: 20px;
+  font-weight: bold;
+  font-family: 'Arvo', 'EB Garamond', serif;
+  padding: 0px 15px;
+}
+
+.panel ul.homepage {
+   margin-top: 10px;
+}
+
+.panel li.homepage{
+  /* float: left; */
+  font-size: 20px;
+  line-height: 30px;
+  color: #333333;
+  font-family: Arial, Helvetica, sans-serif, "微软雅黑", serif;
+
+}
+
+
+/* ARCHIVE STYLES */
+/*=============================*/
+
+.panel h1.archive {
+  font-size: 30px;
+  line-height: 2.0em;
+  font-weight: regular;
+  font-family: 'Arvo', 'EB Garamond', serif;
+}
+
+.panel h2.archive {
+  font-size: 20px;
+  font-weight: bold;
+  font-family: 'Arvo', 'EB Garamond', serif;
+  padding: 0px 15px;
+}
+
+.panel ul.archive {
+   margin-top: 10px;
+}
+
+.panel li.archive{
+  /* float: left; */
+  font-size: 20px;
+  line-height: 30px;
+  color: #333333;
+  font-family: Arial, Helvetica, sans-serif, "微软雅黑", serif;
+
+}
+
+
+/* ARTICLE STYLES */
+/*=============================*/
+.panel .article img {
+  display: block;
+  margin: 0 auto;
+  width: 50%; 
+  height: 50%;
+}
+
+.panel .article figure {
+  text-align: center;
+}
+
+/* ARTICLE MARKDOWN STYLES */
+.panel h1.article, .panel .article h1{
+  text-align: center;
+  font-size: 30px;
+  line-height: 2.0em;
+  font-weight: regular;
+  font-family: 'Arvo', 'EB Garamond', serif;
+}
+
+.panel .article p {
+  font-size: 16px;
+  line-height: 1.5em;
+  font-family: 'Roboto', 'EB Garamond', sans-serif;
+}
+
+.panel p.date{
+  font-size: 15px;
+  line-height: 20px;
+  padding: 0;
+  margin: 0;
+  text-align: right;
+  font-style: italic;
+}
+  
+/* ARCHIVE STYLES */
+/*=============================*/
+.panel p.about{
+  font-family: 'Roboto', 'EB Garamond', sans-serif;
+}
+
+.panel h1.about {
+  font-size: 30px;
+  line-height: 2.0em;
+  font-weight: regular;
+  font-family: 'Arvo', 'EB Garamond', serif;
+}
+
+.panel h2.about {
+  font-size: 20px;
+  font-weight: bold;
+  font-family: 'Arvo', 'EB Garamond', serif;
+  padding: 0px 15px;
+}
+

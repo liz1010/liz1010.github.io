@@ -1,0 +1,31 @@
+---
+layout: default
+title: About
+permalink: /index.html
+---
+
+
+<body>
+    <!-- <aside>
+        <a href="" class="btn btn-primary tag" role="button" aria-disabled="true">年度小结</a>
+        <a href="" class="btn btn-primary tag" role="button" aria-disabled="true">读书笔记</a>
+        <a href="" class="btn btn-primary tag" role="button" aria-disabled="true">html+css</a>
+    </aside-->
+        
+    <!-- 文章目录 -->
+    <h1 class="homepage">
+        Recent Posts
+    </h1>
+
+    <ul class="homepage">
+        {% for post in site.posts %}
+        <li class="homepage">
+            <a class="homepage" href="{{ post.url }}">{{ post.title }}</a>
+            <!-- <p>{{ post.excerpt }}</p> -->
+        </li>
+        {% endfor %}
+    </ul>
+    
+
+</body>
+   
