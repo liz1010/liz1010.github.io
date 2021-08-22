@@ -1,0 +1,145 @@
+
+<!DOCTYPE html>
+
+<!--FRONT PAGE LAYOUT-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>My Commic!</title>
+
+    <!-- Code highlighting CSS -->
+    <link href="/css/syntax.css" rel="stylesheet">
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for webcomic -->
+    <link href="/css/common.css" rel="stylesheet">
+    <link href="/css/article.css" rel="stylesheet">
+
+    <!--Google Fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Arvo|Fredoka+One|Roboto" rel="stylesheet">
+
+    <!-- Font Awesome-->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+  </head>
+
+  <body>
+
+    <div class="container">
+      <div class="row">
+        <div class="jumbotron">
+          <a href=/><h1>Welcome to Zixuan's Blog</h1></a>
+          <p>Be an excellent and happy Reader, Hiphop Dancer, and Software Engineer!</p>
+        </div>
+
+        <div class="col-md-12 navbar_ov">
+          <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-static-top" role="navigation">
+    
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" >
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href=/index.html>HOMEPAGE</a></li>
+                <li><a href=/archive>ARCHIVE</a></li>
+                <li><a href=/practice.html>PRACTICE</a></li>
+                <li><a href=/about>ABOUT</a></li>
+            </ul>
+        </div>
+    
+</nav>
+
+        </div>
+
+        <div class="col-md-12 panel">
+          <a name="top-page"></a>
+          <h1 class="article">opnet调用matlab引擎</h1>
+          <br>
+          <p class="date">Tuesday, January 3, 2017</p>
+          <br>
+          <br>
+          <div class="article">
+            
+<p><strong>环境：</strong></p>
+
+<!-- more -->
+<p><code class="highlighter-rouge">matlab2014b (win32) + opnet14.5 （32位）+ vs2010 + win10</code></p>
+
+<p><strong>环境变量设置：</strong></p>
+
+<blockquote>
+  <p><strong>include:</strong><br />
+ G:\VS2010\VC\include<br />
+ C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Include<br />
+ G:\opnet\opnetinstall\14.5.A\sys\include<br />
+ G:\opnet\opnetinstall\14.5.A\models\std\include<br />
+ <strong>G:\matlab2014b\extern\include</strong></p>
+
+  <p><strong>lib:</strong><br />
+ G:\VS2010\VC\lib<br />
+ C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Lib<br />
+ G:\opnet\opnetinstall\14.5.A\sys\lib<br />
+ G:\opnet\opnetinstall\14.5.A\sys\pc_intel_win32\lib<br />
+ <strong>G:\matlab2014b\extern\lib\win32\microsoft</strong></p>
+
+  <p><strong>path:</strong><br />
+ G:\VS2010\VC\bin<br />
+ G:\VS2010\Common7\IDE<br />
+ G:\VS2010\Common7\Tools<br />
+ G:\opnet\opnetinstall\14.5.A\sys\pc_intel_win32\bin<br />
+ <strong>G:\matlab2014b\bin\win32</strong></p>
+</blockquote>
+
+<p>（以上根据自己的安装路径进行修改）</p>
+
+<p><strong>注意：</strong><br />
+在已安装opnet和vs的基础上，下载matlab（注意与你的opnet版本要相合，我之前电脑中已安装win64位的matlab，但我的opnet运行的是32位的，所以报错，后来又重新安装了32位版本才没有问题）。加粗部分是安装了matlab之后需要添加的环境变量。需要特别注意的是，在matlab安装之后，点击查看环境变量path，会看到系统会自动给你添加了G:\matlab2014b\bin，一定要再在后面加上\win32，因为系统搜索的时候不会搜索子文件夹里面文件，而很多必需文件是在win32子文件夹里的，所以切记切记。</p>
+
+<p>接着修改opnet的prefrence中的一些参数：(编译和运行)</p>
+
+<blockquote>
+  <ul>
+    <li>comp_flags_common：添加 <code class="highlighter-rouge">/IG:\matlab2014b\extern\include</code>
+（注意格式<code class="highlighter-rouge">/I+matlab库文件目录</code>）</li>
+    <li>bind_shobj_flag：添加
+<code class="highlighter-rouge">“/libpath:”G:\matlab2014b\extern\lib\win32\microsoft”</code>
+（格式<code class="highlighter-rouge">/libpath:matlab库文件目录</code>）</li>
+    <li>bind_shobj_libs：添加 <code class="highlighter-rouge">libmx.lib libmat.lib libeng.lib</code></li>
+  </ul>
+
+</blockquote>
+
+<p>然后就可以在opnet的进程域中编写代码，通过调用matlab引擎来实现和matlab联合仿真，具体的编程可以参考matlab引擎函数的使用。注意，需要在HB中声明<code class="highlighter-rouge">#include
+"engine.h"</code> 。</p>
+
+
+          </div>
+          <ul class="pager">
+            <li><a class="btn btn-outline-secondary" href= /%E5%B7%A5%E5%85%B7/2016/12/01/OPNET-learning-summary-(1).html#top-page >PREVIOUS</a></li>
+            <li><a class="btn btn-outline-primary" href= /%E9%9A%8F%E7%AC%94/2017/03/05/Technology,-creating-a-public-enemy-of-the-entire-network-(Hated-in-the-Nation)-about-it.html#top-page >NEXT</a></li>
+          </ul>
+        </div><!--end panel-->
+      </div><!--end row-->
+    </div><!-- end container-->
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  </body>
+</html>

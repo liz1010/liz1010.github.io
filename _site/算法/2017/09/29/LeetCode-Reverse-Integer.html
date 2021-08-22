@@ -1,0 +1,123 @@
+
+<!DOCTYPE html>
+
+<!--FRONT PAGE LAYOUT-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>My Commic!</title>
+
+    <!-- Code highlighting CSS -->
+    <link href="/css/syntax.css" rel="stylesheet">
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for webcomic -->
+    <link href="/css/common.css" rel="stylesheet">
+    <link href="/css/article.css" rel="stylesheet">
+
+    <!--Google Fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Arvo|Fredoka+One|Roboto" rel="stylesheet">
+
+    <!-- Font Awesome-->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+  </head>
+
+  <body>
+
+    <div class="container">
+      <div class="row">
+        <div class="jumbotron">
+          <a href=/><h1>Welcome to Zixuan's Blog</h1></a>
+          <p>Be an excellent and happy Reader, Hiphop Dancer, and Software Engineer!</p>
+        </div>
+
+        <div class="col-md-12 navbar_ov">
+          <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-static-top" role="navigation">
+    
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" >
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href=/index.html>HOMEPAGE</a></li>
+                <li><a href=/archive>ARCHIVE</a></li>
+                <li><a href=/practice.html>PRACTICE</a></li>
+                <li><a href=/about>ABOUT</a></li>
+            </ul>
+        </div>
+    
+</nav>
+
+        </div>
+
+        <div class="col-md-12 panel">
+          <a name="top-page"></a>
+          <h1 class="article">LeetCode-Reverse Integer</h1>
+          <br>
+          <p class="date">Friday, September 29, 2017</p>
+          <br>
+          <br>
+          <div class="article">
+            
+<p>原题：</p>
+
+<!-- more -->
+
+<blockquote>
+  <p>Reverse digits of an integer.<br />
+ <strong>Example1</strong> : x = 123, return 321<br />
+ <strong>Example2</strong> : x = -123, return -321</p>
+
+  <p><strong>Note:</strong><br />
+ The input is assumed to be a 32-bit signed integer. Your function should
+return 0 when the reversed integer <strong>overflows</strong>.</p>
+</blockquote>
+
+<p>思路：关键是溢出的问题，32位数表示的范围为：-2^31—2^31-1，INT_MAX=2^31-1，INT_MIN=-INT_MAX-1，关于表示范围的疑问，可参考博客：<a href="https://www.sigmainfy.com/blog/2s-complement-int-max-int-min-difference.html">https://www.sigmainfy.com/blog/2s-complement-int-max-int-min-difference.html</a>，采用long long整形来表示数以防溢出报错。注意：正负数不必区分，可以自己找几个数试验一下。</p>
+
+<div class="language-c++ highlighter-rouge"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="kt">int</span> <span class="n">reverse</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">){</span>
+        <span class="kt">long</span> <span class="kt">long</span> <span class="n">res</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+        <span class="k">while</span><span class="p">(</span><span class="n">x</span><span class="o">!=</span><span class="mi">0</span><span class="p">){</span>
+            <span class="n">res</span><span class="o">=</span><span class="mi">10</span><span class="o">*</span><span class="n">res</span><span class="o">+</span><span class="n">x</span><span class="o">%</span><span class="mi">10</span><span class="p">;</span>
+            <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="o">/</span><span class="mi">10</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">res</span><span class="o">&gt;</span><span class="n">INT_MAX</span> <span class="o">||</span> <span class="n">res</span><span class="o">&lt;</span><span class="n">INT_MIN</span><span class="p">)</span><span class="o">?</span> <span class="mi">0</span><span class="o">:</span><span class="n">res</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre>
+</div>
+
+
+          </div>
+          <ul class="pager">
+            <li><a class="btn btn-outline-secondary" href= /%E7%AE%97%E6%B3%95/2017/09/29/LeetCode-ZigZag-Conversion.html#top-page >PREVIOUS</a></li>
+            <li><a class="btn btn-outline-primary" href= /%E9%9A%8F%E7%AC%94/2017/10/10/Consumer-society-rich-and-single.html#top-page >NEXT</a></li>
+          </ul>
+        </div><!--end panel-->
+      </div><!--end row-->
+    </div><!-- end container-->
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  </body>
+</html>

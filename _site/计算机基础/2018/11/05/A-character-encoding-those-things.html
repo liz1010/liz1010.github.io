@@ -1,0 +1,176 @@
+
+<!DOCTYPE html>
+
+<!--FRONT PAGE LAYOUT-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>My Commic!</title>
+
+    <!-- Code highlighting CSS -->
+    <link href="/css/syntax.css" rel="stylesheet">
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for webcomic -->
+    <link href="/css/common.css" rel="stylesheet">
+    <link href="/css/article.css" rel="stylesheet">
+
+    <!--Google Fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Arvo|Fredoka+One|Roboto" rel="stylesheet">
+
+    <!-- Font Awesome-->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+  </head>
+
+  <body>
+
+    <div class="container">
+      <div class="row">
+        <div class="jumbotron">
+          <a href=/><h1>Welcome to Zixuan's Blog</h1></a>
+          <p>Be an excellent and happy Reader, Hiphop Dancer, and Software Engineer!</p>
+        </div>
+
+        <div class="col-md-12 navbar_ov">
+          <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-static-top" role="navigation">
+    
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" >
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href=/index.html>HOMEPAGE</a></li>
+                <li><a href=/archive>ARCHIVE</a></li>
+                <li><a href=/practice.html>PRACTICE</a></li>
+                <li><a href=/about>ABOUT</a></li>
+            </ul>
+        </div>
+    
+</nav>
+
+        </div>
+
+        <div class="col-md-12 panel">
+          <a name="top-page"></a>
+          <h1 class="article">字符编码那些事儿</h1>
+          <br>
+          <p class="date">Monday, November 5, 2018</p>
+          <br>
+          <br>
+          <div class="article">
+            <ul id="markdown-toc">
+  <li><a href="#为什么要有字符编码" id="markdown-toc-为什么要有字符编码">为什么要有字符编码？</a></li>
+  <li><a href="#为什么会有多种编码方式" id="markdown-toc-为什么会有多种编码方式">为什么会有多种编码方式？</a></li>
+  <li><a href="#为什么会出现乱码" id="markdown-toc-为什么会出现乱码">为什么会出现乱码？</a></li>
+  <li><a href="#ref" id="markdown-toc-ref">Ref</a></li>
+</ul>
+
+<p>Unicode， ASCII， UTF-8，GB2312……这些到底是什么？为什么vim打开编辑文档出现乱码？怎么修改字符编码之后就解决了？</p>
+
+<p>很多与文档编辑有关的软件，也总是涉及到设置字符编码的选项？应该怎么设置？</p>
+
+<p>让我们带着疑问一步一步拨云见日。</p>
+
+<h2 id="为什么要有字符编码">为什么要有字符编码？</h2>
+
+<p>计算机系统中所有信息以二进制形式存储，因此为了将我们日常所用的字符转化为计算机内部的信息，需要通过字符编码将这些字符转化为二进制码。那么这里涉及到两个概念：</p>
+
+<p><strong>字符集</strong> ：字符集就是用十进制来表示各种字符的集合。</p>
+
+<p><strong>字符编码</strong> ：将字符转化为二进制编码的规则。</p>
+
+<h2 id="为什么会有多种编码方式">为什么会有多种编码方式？</h2>
+
+<ul>
+  <li>ASCII</li>
+</ul>
+
+<p>最早，ASCII（American standard Code for information
+Interchange）作为美国人发明的字符编码方式，其字符集包括128个字符（0-127号），由8位二进制表示，其中最前面一位统一规定为0，后7位用来表示这些字符。比如‘A’在字符集中是65，表示为二进制是01000001。</p>
+
+<p>但后来当世界各地都开始用计算机时他们的字母里很多是ASCII里面没有，因此将ASCII码中127号之后的空位来表示这些新字符，因此从128-255这一页字符集被称为扩展字符集。</p>
+
+<ul>
+  <li>GB2312</li>
+</ul>
+
+<p>等到中国人使用计算机后，发现完全没有中文字符啊，怎么办？于是中国人提出的字符编码方案为 <strong>GB2312</strong>
+，相当于对ASCII的扩展。小于等于127号的继续使用，并且用2个大于127的字节表示一个中文字符，前面的一个字节（他称之为<code class="highlighter-rouge">高字节</code>）从0xA1用到
+0xF7，后面一个字节（<code class="highlighter-rouge">低字节</code>）从0xA1到0xFE，这样我们就可以组合出大约7000多个简体汉字了。在这些编码中，还把数学符号，罗马希腊的字母，日文的假名都编进去了，连ASCII里本来就有的数字，标点，字母都统统重新编了两个字节长的编码，这就是常说的“
+<strong>全角</strong> ”字符，而原有的127号以下的那些字符称为“ <strong>半角</strong> ”。</p>
+
+<ul>
+  <li>GBK</li>
+</ul>
+
+<p>但是中文还是不够用，很多冷门生僻字和繁体字等还是无法识别怎么办？于是要求高字节大于127的就认为是2字节的中文字符，这样结果脱战之后就是GBK标准。GBK相比GB2312，增加了近20000个新汉字与符号。但后来少数民族同胞也要用计算机，于是为了扩展少数民族字符，GBK被扩展为GB18030。这些编码标准统称为DBCS（Double
+Byte Character Set，双字节字符集）。</p>
+
+<ul>
+  <li>Unicode与UTF-8/UTF-16</li>
+</ul>
+
+<p>为了方便全世界的文化交流，满足跨语言、跨平台文本转换、处理需求，ISO(国际标准化组织)决定制定一个统一的包括全世界所有字符的编码标准，包括字符集、编码方案等，他们打算叫他”Universal
+Multiple-Octet Coded Chracter Set”，简称UCS，俗称Unicode。</p>
+
+<p>在Unicode中，直接规定必须用两个字节，ASCII那些半角字符，保持原编码不变，只是将其长度由原来的8位扩展为16位（高8位全为0），而其他文化和语言的字符则全部重新统一编码。</p>
+
+<p>问题是：（1）计算机怎么知道2个字节为一个字符，如何识别2个字节为一个字符？（2）半角字符如果用两个字节表示，很浪费空间，而计算机大部分内容还是英文。</p>
+
+<p>而作为Unicode字符集的一种编码方式，UTF-8采用变长编码，使用1-4个字节表示一个字符，其特点是，对不同范围的字符使用不同长度的编码。</p>
+
+<p>UTF-8的编码规则：</p>
+
+<p>（1）单字节符号，字节的第一位设为0，后面7位为这个符号的Unicode码。因此对于英文字母，UTF-8编码和ASCII码是相同的。</p>
+
+<p>（2）对于n字节的符号（n&gt;1），第一个字节的前n位都设为1，第n+1位设为0，后面字节的前两位一律设为10，剩下的没有提及的二进制位，全为这个符号的unicode码。</p>
+
+<p><img src="https://img-blog.csdnimg.cn/20181105200347923.png?x-oss-
+process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTIzNDg2OTI=,size_16,color_FFFFFF,t_70" alt="" /></p>
+
+<p>类似的，UTF-16使用二字节或四字节表示一个字符的变长编码。</p>
+
+<h2 id="为什么会出现乱码">为什么会出现乱码？</h2>
+
+<p>编码方式不兼容会导致乱码，例如当一个文件采用编码A的方式编码，但按照编码B的方式解码，必然得到乱码。</p>
+
+<h2 id="ref">Ref</h2>
+
+<p><a href="https://juejin.im/entry/59434c3161ff4b006cd280a1">（1）</a><a href="https://juejin.im/entry/59434c3161ff4b006cd280a1">ASCII，Unicode 和 UTF-8
+的故事</a></p>
+
+<p><a href="http://www.ruanyifeng.com/blog/2007/10/ascii_unicode_and_utf-8.html">（2）</a><a href="http://www.ruanyifeng.com/blog/2007/10/ascii_unicode_and_utf-8.html">字符编码笔记：ASCII，Unicode
+和 UTF-8</a></p>
+
+
+          </div>
+          <ul class="pager">
+            <li><a class="btn btn-outline-secondary" href= /c/c++/2018/01/15/The-realization-of-strcpystrlenstrcatSTRCMP.html#top-page >PREVIOUS</a></li>
+            <li><a class="btn btn-outline-primary" href= /git/2019/07/09/Git-learning-notes-(1).html#top-page >NEXT</a></li>
+          </ul>
+        </div><!--end panel-->
+      </div><!--end row-->
+    </div><!-- end container-->
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  </body>
+</html>

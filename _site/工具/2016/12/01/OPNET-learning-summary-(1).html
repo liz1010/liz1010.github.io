@@ -1,0 +1,264 @@
+
+<!DOCTYPE html>
+
+<!--FRONT PAGE LAYOUT-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>My Commic!</title>
+
+    <!-- Code highlighting CSS -->
+    <link href="/css/syntax.css" rel="stylesheet">
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for webcomic -->
+    <link href="/css/common.css" rel="stylesheet">
+    <link href="/css/article.css" rel="stylesheet">
+
+    <!--Google Fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Arvo|Fredoka+One|Roboto" rel="stylesheet">
+
+    <!-- Font Awesome-->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+  </head>
+
+  <body>
+
+    <div class="container">
+      <div class="row">
+        <div class="jumbotron">
+          <a href=/><h1>Welcome to Zixuan's Blog</h1></a>
+          <p>Be an excellent and happy Reader, Hiphop Dancer, and Software Engineer!</p>
+        </div>
+
+        <div class="col-md-12 navbar_ov">
+          <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-static-top" role="navigation">
+    
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" >
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href=/index.html>HOMEPAGE</a></li>
+                <li><a href=/archive>ARCHIVE</a></li>
+                <li><a href=/practice.html>PRACTICE</a></li>
+                <li><a href=/about>ABOUT</a></li>
+            </ul>
+        </div>
+    
+</nav>
+
+        </div>
+
+        <div class="col-md-12 panel">
+          <a name="top-page"></a>
+          <h1 class="article">OPNET学习小结(1)</h1>
+          <br>
+          <p class="date">Thursday, December 1, 2016</p>
+          <br>
+          <br>
+          <div class="article">
+            <ul id="markdown-toc">
+  <li><a href="#前言" id="markdown-toc-前言"><strong>前言</strong></a></li>
+  <li><a href="#opnet关键概念" id="markdown-toc-opnet关键概念"><strong>OPNET关键概念</strong></a>    <ul>
+      <li><a href="#1-opnet-事件表与仿真核心" id="markdown-toc-1-opnet-事件表与仿真核心"><strong>1. Opnet 事件表与仿真核心</strong></a>        <ul>
+          <li><a href="#事件表" id="markdown-toc-事件表"><strong>事件表</strong></a></li>
+          <li><a href="#仿真核心" id="markdown-toc-仿真核心"><strong>仿真核心</strong></a></li>
+          <li><a href="#并发事件的处理" id="markdown-toc-并发事件的处理"><strong>并发事件的处理</strong></a></li>
+        </ul>
+      </li>
+      <li><a href="#2-opnet非强制性状态" id="markdown-toc-2-opnet非强制性状态"><strong>2. opnet非强制性状态</strong></a></li>
+      <li><a href="#3-opnet变量类型" id="markdown-toc-3-opnet变量类型"><strong>3. opnet变量类型</strong></a></li>
+      <li><a href="#4-opnet中断类型" id="markdown-toc-4-opnet中断类型"><strong>4. opnet中断类型</strong></a></li>
+      <li><a href="#opnet无线链路管道阶段" id="markdown-toc-opnet无线链路管道阶段"><strong>opnet无线链路管道阶段</strong></a></li>
+    </ul>
+  </li>
+  <li><a href="#后记" id="markdown-toc-后记"><strong>后记</strong></a></li>
+</ul>
+
+<h2 id="前言"><strong>前言</strong></h2>
+<p>学习OPNET也快一个多月了，就这一段时间的OPNET学习进行一下总结，主要整理了一些在仿真过程中比较重要的概念和知识点。</p>
+
+<!-- more -->
+
+<hr />
+
+<h2 id="opnet关键概念"><strong>OPNET关键概念</strong></h2>
+
+<h3 id="1-opnet-事件表与仿真核心"><strong>1. Opnet 事件表与仿真核心</strong></h3>
+<p>事件是在一个特定时刻的一个特定动作的请求。OPNET仿真由事件驱动，在仿真中，仿真时钟仅在处理时间表头事件的时间更晚时随之变化。</p>
+
+<h4 id="事件表"><strong>事件表</strong></h4>
+
+<ul>
+  <li>OPNET仿真维护一个全局事件表。</li>
+  <li>所有对象共享同一个仿真时钟。</li>
+  <li>事件依照时间先后顺序排列，第一个事件位于表头。</li>
+  <li>事件完成后，从表中删除。</li>
+</ul>
+
+<h4 id="仿真核心"><strong>仿真核心</strong></h4>
+
+<ul>
+  <li>仿真核心（Simulation Kernel，简称SK）是管理事件表的实体。</li>
+  <li>SK向对应的模块依次递交事件。</li>
+  <li>SK接收来自模块的请求，并将新事件插入事件表。</li>
+</ul>
+
+<p><img src="/images/OPNET learning summary (1)_1.png" alt="这里写图片描述" /></p>
+
+<h4 id="并发事件的处理"><strong>并发事件的处理</strong></h4>
+<p>仿真核心用两种方法确定事件先后次序：</p>
+
+<ul>
+  <li>先预约先服务，也即按照事件推入事件表的顺序来判断先处理谁</li>
+  <li>优先级
+    <ul>
+      <li>模块和事件被设置优先级</li>
+      <li>高优先级的先服务</li>
+    </ul>
+  </li>
+</ul>
+
+<p><strong>注意：事件仍然顺序处理，尽管看起来是在同一个时刻发生的。</strong></p>
+
+<h3 id="2-opnet非强制性状态"><strong>2. opnet非强制性状态</strong></h3>
+<p>非强制性状态与强制性状态的差别就在于多了对中断的等待，注意它的执行顺序是，入口代码-&gt;等待中断-&gt;中断到达-&gt;出口代码-&gt;执行转移条件的判断，初学的时候，尤其对于如下图的状态转换，可能会受转换线箭头的影响，对这样一个执行顺序掌握的不太明了。（我就是这样(@_@?）</p>
+
+<p><img src="/images/OPNET learning summary (1)_2.png" alt="这里写图片描述" /></p>
+
+<h3 id="3-opnet变量类型"><strong>3. opnet变量类型</strong></h3>
+
+<ul>
+  <li>
+    <p><strong>全局变量</strong><br />
+在HB区域定义，作用范围是整个项目，同一项目中的不同进程中的HB定义的变量不可重复初始化。如要使用已经定义好的全局变量，在变量声明前加上extern。</p>
+  </li>
+  <li>
+    <p><strong>状态变量</strong><br />
+在状态变量区定义，作用范围是整个进程，它的值在进程范围内保留，当模块将程序控制权交还给仿真核心时，状态变量的值受保护，状态变量为每个进程保持个性化提供机制。</p>
+  </li>
+  <li>
+    <p><strong>临时变量</strong><br />
+在临时变量区定义，它的值在两次中断触发之间不保留，也就是说，当模块将程序控制权交还给仿真核心时，临时变量的值不受保护。</p>
+  </li>
+</ul>
+
+<p><strong>定义变量</strong> ：<br />
+<strong>HB</strong> ：头区域，定义常量，头文件，宏，全局变量，数据结构，数据类型和函数声明。<br />
+<strong>SV</strong> ：状态变量区，定义状态变量，状态变量在不同的进程切换之间，保持值不变<br />
+<strong>TV：</strong>状态变量区，定义临时变量，临时变量在不同的进程切换之间，无法保持值不变。<br />
+<strong>FB</strong> ：函数区域，定义和进程相关函数<br />
+<strong>DB</strong> ：诊断区域，定义C/C++语句，将诊断信息输出到标准出设备中。<br />
+<strong>TB</strong> ：终止区域，定义C/C++语句，这些语句将在进程销毁时执行，一般为释放内存等语句。</p>
+<h3 id="4-opnet中断类型"><strong>4. opnet中断类型</strong></h3>
+<p>中断在opnet仿真中非常重要，OPNET是事件驱动型仿真，因此要有相应的事件产生仿真才能推进，预设中断就是产生事件的一种方式。下面归纳了一下opnet中的中断类型（不全）：</p>
+
+<ul>
+  <li>仿真核心中断</li>
+</ul>
+
+<blockquote>
+  <p>begsim intrpt、endsim intrpt、failure intrpt、regular intrpt等等<br />
+ begsim
+intrpt影响init状态的enter代码何时执行，如果是enabled，那么仿真一开始，即仿真0时刻，可以对process进行初始化，process被触发后，即执行init的enter代码。endsim
+intrpt如果仿真结束时，需要进行一些工作（如变量的收集，内存的释放等），则需要enable endsim intrpt。regular
+intrpt可用来做定时器，设定好intrpt interval之后，仿真核心每隔该时间量触发一次regular中断。</p>
+</blockquote>
+
+<ul>
+  <li>状态中断</li>
+</ul>
+
+<blockquote>
+  <p>stat_intrpt函数可以用来提取统计信息作为反馈控制变量，将该信息反馈回模型中进行控制。<br />
+ 对statictic wire可以这样理解：statistic
+wire将A进程的一个变量反映给B进程，该变量一般由op_stat_write()改变值，在B进程中：（1）检测到OPC_INTRPT_STAT中断以后，由op_stat_local_read()读入。（2）通过op_stat_local_read()查询stat值，一般是在收到OPC_INTRPT_STAT中断时去查询。而进行stat触发，当intrpt
+method选择为forced方式，将直接进行触发。当intrpt method为schedule方式时，有多种触发方式，比如rising
+edge、failing edge trigger、repeated value
+trigger等，按照触发方式在接收端引发OPC_INTRPT_STAT。</p>
+</blockquote>
+
+<ul>
+  <li>流中断</li>
+</ul>
+
+<blockquote>
+  <p>数据包流中断，op_intrpt_strm()返回接收的流索引号（stream index）。</p>
+</blockquote>
+
+<ul>
+  <li>自中断</li>
+</ul>
+
+<blockquote>
+  <p>代码：op_intrpt_schedule_self (op_sim_time () + dest_time, 0);<br />
+ 为了方便介绍，改成这样：op_intrpt_schedule_self (a, b);</p>
+
+  <p>a为时间，是double变量，表示我要在什么时间执行这个中断。其中op_sim_time()代表当前仿真时间，常在这出现，以方便我们能够决定自中断在这之后多久执行。b表示自中断的序号。比如你写了多个自中断，如何区分这些自中断，这样就需要给不同的自中断编号。具体使用如下：</p>
+
+  <p><img src="/images/OPNET learning summary (1)_3.png" alt="这里写图片描述" /></p>
+</blockquote>
+
+<h3 id="opnet无线链路管道阶段"><strong>opnet无线链路管道阶段</strong></h3>
+
+<blockquote>
+  <p>OPENT无线仿真中用14个首尾相接的管道阶段（pipeline
+stage）来尽量接近真实的模仿数据帧在信道中的传输。首先在整个传输过程还没有进行之前，把肯定不能被接收的物件圈定出来；在计算传输延时后接着复制封包，对每一个接收主询中的物件都复制一份；然后计算接收闭锁，检查信道是否完全吻合，如果完全匹配当作有效信号，如果部分匹配当作噪声处理；对于接收器来说，在经历传播延时后，内部产生一个中断，对每一个可能接受的信道，进行6-13阶段，由于包的每段有可能存在不同程度的干扰，因此对每一段都需要单独计算，如果是有效包则计算误码率，如果是噪声则考虑对有效包的影响；之后得到包的总误码数多少，最后决定是否丢包。<br />
+ 整个过程中计算数据保存在包的TDA(transmission Data
+Attribute)里，TDA预设了一些值，如某个发信机和发信机信道的Objid等。这些值一共有OPC_TDA_RA_MAX_INDEX，它是opnet定义的象征性名字，代表TDA属性的最大索引号，如果需要自定义TDA属性，则需要将新属性定义为OPC_TDA_RA_MAX_INDEX加1。</p>
+</blockquote>
+
+<p><img src="/images/OPNET learning summary (1)_4.png" alt="这里写图片描述" /></p>
+
+<p>这里重点提一下 <strong>接收主询</strong> 阶段<br />
+该阶段用来确定候选的收信机对象，排除明显不符合的对象。移除不合要求的接收信道有利于减少包的复制和后续仿真阶段的运行，从而提高仿真效率。<br />
+TD类核心函数可以用来改变默认的收信机组属性，以及针对仿真时间动态的改变和重新计算收信机组。在help文档中的Programmers
+Reference中Transmission Data Package中可以查到相关的函数。而Radio
+Package函数包中可以查询到无线仿真相关函数的详细信息。应用举例：<br />
+将接收主询设置为单个接收信道：<br />
+<code class="highlighter-rouge">op_radio_txch_rxgroup_set(txch_objid,1,rxgroup);</code><br />
+将不必要的接收信道排除：<br />
+<code class="highlighter-rouge">op_radio_txch_rxch_remove(txch_objid,rxch_objid);</code><br />
+如何设置定向天线，并使天线指向某一结点，以及如何将自己从接收结点中排除掉，可以参考这篇博客——<a href="http://blog.csdn.net/asd_wolf/article/details/8953413">opnet无线管道模型</a><br />
+对于其他某些管道阶段，这篇也有一定参考意义。</p>
+
+<p>个人觉得， 如果要进行无线仿真，有必要找一本opnet的教材仔细研究一下14个无线管道阶段，同时结合官方文档了解具体的函数使用方法。</p>
+
+<hr />
+
+<h2 id="后记"><strong>后记</strong></h2>
+<p>opnet仿真的内容很多，目前只是学了皮毛，不过有一个很明显的心得就是，清晰的思路和思维的全面特别重要。在建模过程中，要用什么函数以及如何使用这些函数等问题，基本上都可以通过搜索引擎，查找官方文档或他人经验分享得到解决。随着对opnet的逐渐熟练，“工具”的问题越来越不成为问题。关键是你要实现一个仿真目标，如何构建合适的进程模型，这个就需要你建立全面的状态，设置好状态和状态之间的逻辑关系，考虑到各种可能出现的事件以及事件发生的时间，有些微的差错就可能得不到理想的仿真结果，只能通过多多练习和思考来逐渐摸索opnet进程建模的好方法了。</p>
+
+
+          </div>
+          <ul class="pager">
+            <li><a class="btn btn-outline-secondary" href= /%E5%B7%A5%E5%85%B7/2016/11/04/Opnet14.5-+-win10-+-VS2010-installation.html#top-page >PREVIOUS</a></li>
+            <li><a class="btn btn-outline-primary" href= /%E5%B7%A5%E5%85%B7/2017/01/03/Opnet-calling-matlab-engine.html#top-page >NEXT</a></li>
+          </ul>
+        </div><!--end panel-->
+      </div><!--end row-->
+    </div><!-- end container-->
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  </body>
+</html>

@@ -1,0 +1,232 @@
+
+<!DOCTYPE html>
+
+<!--FRONT PAGE LAYOUT-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>My Commic!</title>
+
+    <!-- Code highlighting CSS -->
+    <link href="/css/syntax.css" rel="stylesheet">
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for webcomic -->
+    <link href="/css/common.css" rel="stylesheet">
+    <link href="/css/article.css" rel="stylesheet">
+
+    <!--Google Fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Arvo|Fredoka+One|Roboto" rel="stylesheet">
+
+    <!-- Font Awesome-->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+  </head>
+
+  <body>
+
+    <div class="container">
+      <div class="row">
+        <div class="jumbotron">
+          <a href=/><h1>Welcome to Zixuan's Blog</h1></a>
+          <p>Be an excellent and happy Reader, Hiphop Dancer, and Software Engineer!</p>
+        </div>
+
+        <div class="col-md-12 navbar_ov">
+          <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-static-top" role="navigation">
+    
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" >
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href=/index.html>HOMEPAGE</a></li>
+                <li><a href=/archive>ARCHIVE</a></li>
+                <li><a href=/practice.html>PRACTICE</a></li>
+                <li><a href=/about>ABOUT</a></li>
+            </ul>
+        </div>
+    
+</nav>
+
+        </div>
+
+        <div class="col-md-12 panel">
+          <a name="top-page"></a>
+          <h1 class="article">typedef与函数指针</h1>
+          <br>
+          <p class="date">Wednesday, January 3, 2018</p>
+          <br>
+          <br>
+          <div class="article">
+            <ul id="markdown-toc">
+  <li><a href="#typedef" id="markdown-toc-typedef"><strong>typedef</strong></a></li>
+  <li><a href="#decltype类型指示符" id="markdown-toc-decltype类型指示符"><strong>decltype类型指示符</strong></a></li>
+  <li><a href="#函数指针" id="markdown-toc-函数指针"><strong>函数指针</strong></a></li>
+</ul>
+
+<h3 id="typedef"><strong>typedef</strong></h3>
+
+<p>利用typedef声明一个新的类型名的方法是：</p>
+
+<!-- more -->
+
+<div class="highlighter-rouge"><pre class="highlight"><code>1. 先按定义变量的方法写出定义语句（如int i;）。
+2. 将变量名换成新类型名（如将i换成COUNT）。
+3.   在最前面加typedef(如typedef int COUNT)。
+4. 然后可以用新类型名去定义变量。
+</code></pre>
+</div>
+
+<p>以声明上述的数组类型为例来说明：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>1. 先按定义数组形式书写： int n[100];
+2. 将变量名n换成自己指定的类型名：int NUM[100];
+3. 在前面加上typedef，得到 typedef int NUM[100];
+4. 用来定义变量： NUM n;(n是包含100个整型元素的数组)。
+</code></pre>
+</div>
+
+<p>关于typedef的几点说明：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>1. typedef可以声明各种类型名，但不能用来定义变量。用typedef可以声明数组类型、字符串类型，使用比较方便。
+2. 用typedef只是对已经存在的类型增加一个类型名，而没有创造新的类型。
+3. 当在不同源文件中用到同一类型数据（尤其是像数组、指针、结构体、共用体等类型数据）时，常用typedef声明一些数据类型，把它们单独放在一个头文件中，然后在需要用到它们的文件中用＃include命令把它们包含进来，以提高编程效率。
+4. 使用typedef有利于程序的通用与移植。有时程序会依赖于硬件特性，用typedef便于移植。
+</code></pre>
+</div>
+
+<p>来自 <a href="http://c.biancheng.net/cpp/biancheng/view/180.html">http://c.biancheng.net/cpp/biancheng/view/180.html</a></p>
+
+<h3 id="decltype类型指示符"><strong>decltype类型指示符</strong></h3>
+
+<p>选择并返回操作数的数据类型，在此过程中，编译器分析表达式并得到它的类型，却不实际计算表达式的值。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>decltype(f()) sum=x;
+const int ci=0, &amp;cj=ci;
+decltype(ci) x=0;   //x类型为const int
+decltype(cj) y=x;  //y的类型是const int&amp;，y绑定到变量x
+decltype(cj) z;      //错误：z是一个引用，必须初始化
+int i=42, *p=&amp;i；
+decltype(*p) c;  //错误，c是int&amp;，必须初始化
+</code></pre>
+</div>
+
+<p>如果表达式的内容是解引用操作，则decltype将得到引用类型。解引用指针可以得到指针所指的对象，而且还能给这个对象赋值，因此，decltype（*p）的结果类型就是int&amp;，而非int。</p>
+
+<h3 id="函数指针"><strong>函数指针</strong></h3>
+
+<p>函数指针指向的是函数而非对象，要想声明一个指向函数的指针，只需要用指针替换函数名即可：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>bool lengthCompare(const string&amp;, const string&amp;)
+bool (*pf)(const string&amp;, const string&amp;);
+</code></pre>
+</div>
+
+<p>pf指向的函数参数是两个conststring的引用，返回类型是bool类型</p>
+
+<ul>
+  <li>使用函数指针</li>
+</ul>
+
+<p>使用函数名时，函数自动转换为指针：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>pf=lengthCompare;
+pf=&amp;lengthCompare;  //两者等价，取址符可选
+</code></pre>
+</div>
+
+<p>此外也可以直接使用指向函数的指针调用该函数，无需提前解引用指针：</p>
+
+<p>以下三种表达等价</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>bool b1=pf("hello", "goodbye");
+bool b2=(*pf)("hello", "goodbye");
+bool b3= lengthCompare("hello", "goodbye");
+</code></pre>
+</div>
+
+<p>Pf=0；或者pf=nullptr；表示pf不指向任何函数。</p>
+
+<p>通过指针类型决定选用函数时，指针类型必须与函数中的参数类型，返回类型精确匹配。</p>
+
+<ul>
+  <li>函数指针形参</li>
+</ul>
+
+<p>虽然不能定义函数类型的形参，但是形参可以是指向函数的指针。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>void useBigger(const string &amp;s1,const string &amp;s2, bool(*pf)(const string &amp;, const string &amp;));
+void useBigger(const string &amp;s1, const string &amp;s2, boolpf(const string &amp;, const string &amp;));
+</code></pre>
+</div>
+
+<p>将函数名作为实参使用，自动转换为指针</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>useBigger(s1, s2, lengthCompare);
+</code></pre>
+</div>
+
+<p>使用typedef与decltype简化表达：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>//Func Func2是函数类型
+typedef bool Func(const string &amp;, const string &amp;);
+typedef decltype(lengthCompare) Func2;
+
+//FuncP,FuncP2是指向函数的指针
+typedef bool (*FuncP)(const string &amp;, const string &amp;)；
+typedef decltype(lengthCompare) *FuncP2；
+</code></pre>
+</div>
+
+<p>useBigger的等价声明：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>void useBigger(const string &amp;s1, const string &amp;s2, Func);
+void useBigger(const string &amp;s1, const string &amp;s2, FuncP2));
+</code></pre>
+</div>
+
+<p>第一条中，编译器自动将Func表示的函数类型转换为指针。</p>
+
+<p>返回指向函数的指针：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>using F=int（int*，int);   //F是函数类型，不是指针
+using PF=int(*)(int*,int);  //PF是指针类型
+F *f1(int);
+PF *f1(int);
+//等价于：
+int (*f1(int))(int *,int);
+</code></pre>
+</div>
+
+
+          </div>
+          <ul class="pager">
+            <li><a class="btn btn-outline-secondary" href= /c/c++/2017/12/31/A-small-piece-of-c-+-+-program-reflects-the-problem.html#top-page >PREVIOUS</a></li>
+            <li><a class="btn btn-outline-primary" href= /c/c++/2018/01/15/The-realization-of-strcpystrlenstrcatSTRCMP.html#top-page >NEXT</a></li>
+          </ul>
+        </div><!--end panel-->
+      </div><!--end row-->
+    </div><!-- end container-->
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  </body>
+</html>

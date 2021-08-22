@@ -1,0 +1,227 @@
+
+<!DOCTYPE html>
+
+<!--FRONT PAGE LAYOUT-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>My Commic!</title>
+
+    <!-- Code highlighting CSS -->
+    <link href="/css/syntax.css" rel="stylesheet">
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for webcomic -->
+    <link href="/css/common.css" rel="stylesheet">
+    <link href="/css/article.css" rel="stylesheet">
+
+    <!--Google Fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Arvo|Fredoka+One|Roboto" rel="stylesheet">
+
+    <!-- Font Awesome-->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+  </head>
+
+  <body>
+
+    <div class="container">
+      <div class="row">
+        <div class="jumbotron">
+          <a href=/><h1>Welcome to Zixuan's Blog</h1></a>
+          <p>Be an excellent and happy Reader, Hiphop Dancer, and Software Engineer!</p>
+        </div>
+
+        <div class="col-md-12 navbar_ov">
+          <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-static-top" role="navigation">
+    
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" >
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href=/index.html>HOMEPAGE</a></li>
+                <li><a href=/archive>ARCHIVE</a></li>
+                <li><a href=/practice.html>PRACTICE</a></li>
+                <li><a href=/about>ABOUT</a></li>
+            </ul>
+        </div>
+    
+</nav>
+
+        </div>
+
+        <div class="col-md-12 panel">
+          <a name="top-page"></a>
+          <h1 class="article">利用Kuhn-Munkras算法求最小权值匹配</h1>
+          <br>
+          <p class="date">Thursday, July 20, 2017</p>
+          <br>
+          <br>
+          <div class="article">
+            
+<p>KM算法求的是基于带权二分图中完备匹配下的最大权值匹配。关于km算法的讲解网上资料比较丰富，此处就不详述啦。这里主要整理一些用KM算法求最小权值匹配的一些问题。</p>
+
+<ul>
+  <li>
+    <p>在求最大权值匹配时，不存在的边的权值设为0。在求最小权值匹配时，可以考虑将对应的权值变为相反数，或者用一个很大的数减去权值，然后再来求最大权值匹配，最后将权值和取反即可。如果使用将对应的权值变为相反数的方法，则不存在的边的权值此时要设为INT_MAX（即，实际中求匹配时使用的是-INT_MAX），如此设置之后还需要特别注意溢出的问题， <code class="highlighter-rouge">if( !sy[j] &amp;&amp; ((lx[i] + ly[j] - weight[i][j] )&lt;inc)</code> 这一句对于带符号整型数可能会溢出，所以此句可以改成<code class="highlighter-rouge">if( !sy[j] &amp;&amp; weight[i][j]!=-INT_MAX &amp;&amp; ((lx[i] + ly[j] - weight[i][j] )&lt;inc)</code>,即不予考虑不存在的边。</p>
+  </li>
+  <li>
+    <p>注意，km算法求的是完备匹配，即x集中的点数m与y集中的点数n不一定相同，但m&lt;=n，最终结果是给x集合中的每一个值都找到一个y中的匹配。</p>
+  </li>
+  <li>
+    <p>如果一个y集合中的点最多可以对应n个x集合中的点，则可以将y中的点数拓展n倍，最后变成一一对应的关系。</p>
+  </li>
+</ul>
+
+<div class="language-c++ highlighter-rouge"><pre class="highlight"><code><span class="cp">#include &lt;iostream&gt;  
+#include &lt;cstdio&gt;  
+#include &lt;memory.h&gt;  
+#include &lt;algorithm&gt;   
+#include &lt;limits.h&gt;
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>  
+		
+<span class="cp">#define MAX 100  
+</span>		
+<span class="kt">int</span> <span class="n">m</span><span class="p">,</span><span class="n">n</span><span class="p">;</span>	<span class="c1">//x集与y集的点数
+</span><span class="kt">int</span> <span class="n">weight</span><span class="p">[</span><span class="n">MAX</span><span class="p">][</span><span class="n">MAX</span><span class="p">];</span>           <span class="c1">//边的权重  
+</span><span class="kt">int</span> <span class="n">lx</span><span class="p">[</span><span class="n">MAX</span><span class="p">],</span><span class="n">ly</span><span class="p">[</span><span class="n">MAX</span><span class="p">];</span>            <span class="c1">//期望值，定点标号  
+</span><span class="kt">bool</span> <span class="n">sx</span><span class="p">[</span><span class="n">MAX</span><span class="p">],</span><span class="n">sy</span><span class="p">[</span><span class="n">MAX</span><span class="p">];</span>           <span class="c1">//记录寻找增广路时点集x，y里的点是否搜索过  
+</span><span class="kt">int</span> <span class="n">match</span><span class="p">[</span><span class="n">MAX</span><span class="p">];</span>                 <span class="c1">//match[i]记录y[i]与x[match[i]]相对应  
+</span>		
+<span class="kt">bool</span> <span class="nf">search_path</span><span class="p">(</span><span class="kt">int</span> <span class="n">u</span><span class="p">)</span> <span class="p">{</span>          <span class="c1">//给x[u]找匹配,这个过程和匈牙利匹配是一样的  
+</span>	<span class="kt">int</span> <span class="n">v</span><span class="p">;</span>
+	<span class="n">sx</span><span class="p">[</span><span class="n">u</span><span class="p">]</span><span class="o">=</span><span class="nb">true</span><span class="p">;</span>		  
+	<span class="k">for</span><span class="p">(</span><span class="n">v</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">v</span><span class="o">&lt;</span><span class="n">n</span><span class="p">;</span> <span class="n">v</span><span class="o">++</span><span class="p">){</span>  
+		<span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">sy</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">&amp;&amp;</span><span class="n">lx</span><span class="p">[</span><span class="n">u</span><span class="p">]</span><span class="o">+</span><span class="n">ly</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">==</span> <span class="n">weight</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="n">v</span><span class="p">]){</span>	<span class="c1">//对于还没搜索过的且在相等子图中的点  
+</span>			<span class="n">sy</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">=</span><span class="nb">true</span><span class="p">;</span>  <span class="c1">//标记一下表示搜索过
+</span>			<span class="k">if</span><span class="p">(</span><span class="n">match</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">==-</span><span class="mi">1</span> <span class="o">||</span> <span class="n">search_path</span><span class="p">(</span><span class="n">match</span><span class="p">[</span><span class="n">v</span><span class="p">])){</span>	<span class="c1">//名花无主或者还能腾出个位置（使用递归）  
+</span>				<span class="n">match</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">=</span><span class="n">u</span><span class="p">;</span>  
+				<span class="k">return</span> <span class="nb">true</span><span class="p">;</span>  
+			<span class="p">}</span>  
+		<span class="p">}</span>  
+	<span class="p">}</span>  
+	<span class="k">return</span> <span class="nb">false</span><span class="p">;</span>  
+<span class="p">}</span>  
+		
+<span class="kt">int</span> <span class="n">Kuhn_Munkras</span><span class="p">(</span><span class="kt">bool</span> <span class="n">max_weight</span><span class="p">){</span>  <span class="c1">//表示求最大匹配(1)还是最小匹配(0)
+</span>	<span class="kt">int</span> <span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">u</span><span class="p">,</span><span class="n">inc</span><span class="p">,</span><span class="n">sum</span><span class="p">;</span>
+	<span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">max_weight</span><span class="p">){</span> <span class="c1">//如果求最小匹配，则要将边权取反  
+</span>		<span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">m</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>  
+			<span class="k">for</span><span class="p">(</span><span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">j</span><span class="o">&lt;</span><span class="n">n</span><span class="p">;</span><span class="n">j</span><span class="o">++</span><span class="p">)</span>  
+				<span class="n">weight</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="o">=-</span><span class="n">weight</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">];</span>  
+	<span class="p">}</span>  
+	<span class="c1">//初始化顶标，lx[i]设置为max(weight[i][j] | j=0,..,n-1 ), ly[i]=0;  
+</span>	<span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">m</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>  
+		<span class="n">lx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=-</span><span class="mh">0x7fffffff</span><span class="p">;</span>  
+		<span class="k">for</span><span class="p">(</span><span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">j</span><span class="o">&lt;</span><span class="n">n</span><span class="p">;</span><span class="n">j</span><span class="o">++</span><span class="p">)</span>  
+			<span class="k">if</span><span class="p">(</span><span class="n">lx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">&lt;</span><span class="n">weight</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">])</span>  
+				<span class="n">lx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">weight</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">];</span>  
+	<span class="p">}</span>  
+	<span class="k">for</span><span class="p">(</span><span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">j</span><span class="o">&lt;</span><span class="n">n</span><span class="p">;</span><span class="n">j</span><span class="o">++</span><span class="p">)</span><span class="n">ly</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+	<span class="n">memset</span><span class="p">(</span><span class="n">match</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="k">sizeof</span><span class="p">(</span><span class="n">match</span><span class="p">));</span>  
+	<span class="c1">//不断修改顶标，直到找到完备匹配或完美匹配  
+</span>	<span class="k">for</span><span class="p">(</span><span class="n">u</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">u</span><span class="o">&lt;</span><span class="n">m</span><span class="p">;</span><span class="n">u</span><span class="o">++</span><span class="p">){</span>   <span class="c1">//为x里的每一个点找匹配  
+</span>		<span class="k">while</span><span class="p">(</span><span class="mi">1</span><span class="p">){</span>  
+			<span class="n">memset</span><span class="p">(</span><span class="n">sx</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="k">sizeof</span><span class="p">(</span><span class="n">sx</span><span class="p">));</span>  
+			<span class="n">memset</span><span class="p">(</span><span class="n">sy</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="k">sizeof</span><span class="p">(</span><span class="n">sy</span><span class="p">));</span>  
+			<span class="k">if</span><span class="p">(</span><span class="n">search_path</span><span class="p">(</span><span class="n">u</span><span class="p">))</span>       <span class="c1">//x[u]在相等子图找到了匹配,继续为下一个点找匹配  
+</span>				<span class="k">break</span><span class="p">;</span>  
+			<span class="c1">//如果在相等子图里没有找到匹配，就修改顶标，直到找到匹配为止  
+</span>			<span class="c1">//首先找到修改顶标时的增量inc, min(lx[i] + ly [i] - weight[i][j],inc);,lx[i]为搜索过的点，ly[i]是未搜索过的点,因为现在是要给u找匹配，所以只需要修改找的过程中搜索过的点，增加有可能对u有帮助的边  
+</span>			<span class="n">inc</span><span class="o">=</span><span class="mh">0x7fffffff</span><span class="p">;</span>  
+			<span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">m</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+			<span class="p">{</span>
+				<span class="k">if</span><span class="p">(</span><span class="n">sx</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>		<span class="c1">//x是搜索过的点
+</span>					<span class="k">for</span><span class="p">(</span><span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">j</span><span class="o">&lt;</span><span class="n">n</span><span class="p">;</span><span class="n">j</span><span class="o">++</span><span class="p">)</span>
+					<span class="p">{</span>
+						<span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">sy</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">&amp;&amp;</span><span class="p">((</span><span class="n">lx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">ly</span> <span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">-</span> <span class="n">weight</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="p">)</span><span class="o">&lt;</span><span class="n">inc</span><span class="p">))</span> <span class="n">inc</span> <span class="o">=</span> <span class="n">lx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">ly</span> <span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">-</span> <span class="n">weight</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="p">;</span>	<span class="c1">//y是未搜索过的点
+</span>					<span class="p">}</span>
+			<span class="p">}</span>
+					<span class="c1">//找到增量后修改顶标，因为sx[i]与sy[j]都为真，则必然符合lx[i] + ly [j] =weight[i][j]，然后将lx[i]减inc，ly[j]加inc不会改变等式，但是原来lx[i] + ly [j] ！=weight[i][j]即sx[i]与sy[j]最多一个为真，lx[i] + ly [j] 就会发生改变，从而符合等式，边也就加入到相等子图中  
+</span>			<span class="k">if</span><span class="p">(</span><span class="n">inc</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span>  <span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">"fuck!"</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>  <span class="c1">//都无法求其次，简直不可理喻，所以找不到完备匹配
+</span>			<span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">m</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>  
+				<span class="k">if</span><span class="p">(</span><span class="n">sx</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>     
+					<span class="n">lx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-=</span><span class="n">inc</span><span class="p">;</span>		<span class="c1">//所有已搜索过的x减少相同的量，便于给其他的x找其他的路径
+</span>			<span class="p">}</span>
+			<span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">n</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+				<span class="k">if</span><span class="p">(</span><span class="n">sy</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>  
+					<span class="n">ly</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+=</span><span class="n">inc</span><span class="p">;</span>		<span class="c1">//对应的ly[]加上inc使得Lx[]+Ly[]与weight[]始终保持一致
+</span>			<span class="p">}</span>  
+		<span class="p">}</span>  
+		
+	<span class="p">}</span>  
+	<span class="n">sum</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>  
+	<span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">n</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>  
+		<span class="k">if</span><span class="p">(</span><span class="n">match</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">&gt;=</span><span class="mi">0</span><span class="p">)</span>  
+			<span class="n">sum</span><span class="o">+=</span><span class="n">weight</span><span class="p">[</span><span class="n">match</span><span class="p">[</span><span class="n">i</span><span class="p">]][</span><span class="n">i</span><span class="p">];</span>  
+		
+	<span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">max_weight</span><span class="p">)</span>  
+		<span class="n">sum</span><span class="o">=-</span><span class="n">sum</span><span class="p">;</span>  
+	<span class="k">return</span> <span class="n">sum</span><span class="p">;</span>  
+		
+<span class="p">}</span>
+
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">(){</span>  
+	<span class="kt">int</span> <span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">;</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"请输入X集与Y集的点数：M,N</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="n">scanf</span><span class="p">(</span><span class="s">"%d%d"</span><span class="p">,</span><span class="o">&amp;</span><span class="n">m</span><span class="p">,</span><span class="o">&amp;</span><span class="n">n</span><span class="p">);</span>  
+	<span class="n">printf</span><span class="p">(</span><span class="s">"请输入权重</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">m</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>  
+	<span class="k">for</span><span class="p">(</span><span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">j</span><span class="o">&lt;</span><span class="n">n</span><span class="p">;</span><span class="n">j</span><span class="o">++</span><span class="p">)</span>  
+		<span class="n">scanf</span><span class="p">(</span><span class="s">"%d"</span><span class="p">,</span><span class="o">&amp;</span><span class="n">weight</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]);</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"%d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">Kuhn_Munkras</span><span class="p">(</span><span class="mi">0</span><span class="p">));</span>  
+	<span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">n</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="n">printf</span><span class="p">(</span><span class="s">"%d "</span><span class="p">,</span><span class="n">match</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+	<span class="n">system</span><span class="p">(</span><span class="s">"pause"</span><span class="p">);</span>  
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>  
+<span class="p">}</span>  
+</code></pre>
+</div>
+
+<p><strong>一些重要概念的补充：</strong></p>
+
+<ul>
+  <li>二分图：顶点分为两个集合X和Y，所有的边关联在两个顶点中，恰好一个属于集合X，另一个属于集合Y。</li>
+  <li>最大匹配：图中包含边数最多的匹配称为图的最大匹配。（这个时候不涉及权值）</li>
+  <li>完备匹配与完美匹配：<code class="highlighter-rouge">G=&lt; V1, V2, E &gt;，|V1|&lt;=|V2|，M为G中的一个最大匹配，且|M|=|V1|，则称M为V1到V2的完备匹配，若|V2|=|V1|，则完备匹配即为完美匹配，若|V1|&lt;|V2|，则完备匹配为G中的最大匹配。</code></li>
+  <li>匈牙利算法：用增广路求二分图的最大匹配。</li>
+  <li>KM算法：利用匈牙利算法求完备匹配下的 <strong>最大权重</strong> 匹配。</li>
+</ul>
+
+<p><strong>参考博客：</strong></p>
+
+<p><a href="http://blog.csdn.net/zhangpinghao/article/details/12242823%EF%BC%88%E4%BB%A3%E7%A0%81%E5%8F%82%E8%80%83%E8%AF%A5%E5%8D%9A%E5%AE%A2%EF%BC%89">http://blog.csdn.net/zhangpinghao/article/details/12242823（代码参考该博客）</a><br />
+<a href="http://philoscience.iteye.com/blog/1754498%EF%BC%88%E4%B8%AA%E4%BA%BA%E8%AE%A4%E4%B8%BA%E5%AF%B9km%E7%AE%97%E6%B3%95%E8%AE%B2%E8%A7%A3%E6%AF%94%E8%BE%83%E5%A5%BD%EF%BC%89">http://philoscience.iteye.com/blog/1754498（个人认为对km算法讲解比较好）</a></p>
+
+          </div>
+          <ul class="pager">
+            <li><a class="btn btn-outline-secondary" href= /%E9%9A%8F%E7%AC%94/2017/04/24/My-book.html#top-page >PREVIOUS</a></li>
+            <li><a class="btn btn-outline-primary" href= /%E7%AE%97%E6%B3%95/2017/09/19/LeetCode-water-tank-problem-(a-maximum-capacity).html#top-page >NEXT</a></li>
+          </ul>
+        </div><!--end panel-->
+      </div><!--end row-->
+    </div><!-- end container-->
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  </body>
+</html>

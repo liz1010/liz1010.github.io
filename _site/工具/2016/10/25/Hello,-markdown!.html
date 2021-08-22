@@ -1,0 +1,268 @@
+
+<!DOCTYPE html>
+
+<!--FRONT PAGE LAYOUT-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>My Commic!</title>
+
+    <!-- Code highlighting CSS -->
+    <link href="/css/syntax.css" rel="stylesheet">
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for webcomic -->
+    <link href="/css/common.css" rel="stylesheet">
+    <link href="/css/article.css" rel="stylesheet">
+
+    <!--Google Fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Arvo|Fredoka+One|Roboto" rel="stylesheet">
+
+    <!-- Font Awesome-->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+  </head>
+
+  <body>
+
+    <div class="container">
+      <div class="row">
+        <div class="jumbotron">
+          <a href=/><h1>Welcome to Zixuan's Blog</h1></a>
+          <p>Be an excellent and happy Reader, Hiphop Dancer, and Software Engineer!</p>
+        </div>
+
+        <div class="col-md-12 navbar_ov">
+          <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-static-top" role="navigation">
+    
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" >
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href=/index.html>HOMEPAGE</a></li>
+                <li><a href=/archive>ARCHIVE</a></li>
+                <li><a href=/practice.html>PRACTICE</a></li>
+                <li><a href=/about>ABOUT</a></li>
+            </ul>
+        </div>
+    
+</nav>
+
+        </div>
+
+        <div class="col-md-12 panel">
+          <a name="top-page"></a>
+          <h1 class="article">Hello，Markdown！</h1>
+          <br>
+          <p class="date">Tuesday, October 25, 2016</p>
+          <br>
+          <br>
+          <div class="article">
+            <ul id="markdown-toc">
+  <li><a href="#前言" id="markdown-toc-前言"><strong>前言</strong></a></li>
+  <li><a href="#什么是markdown" id="markdown-toc-什么是markdown"><strong>什么是Markdown？</strong></a></li>
+  <li><a href="#为什么要用markdown进行写作" id="markdown-toc-为什么要用markdown进行写作"><strong>为什么要用Markdown进行写作？</strong></a></li>
+  <li><a href="#markdown常用语法介绍" id="markdown-toc-markdown常用语法介绍"><strong>Markdown常用语法介绍</strong></a>    <ul>
+      <li><a href="#区块元素" id="markdown-toc-区块元素">区块元素</a></li>
+    </ul>
+  </li>
+  <li><a href="#一级标题" id="markdown-toc-一级标题">一级标题</a>    <ul>
+      <li><a href="#二级标题" id="markdown-toc-二级标题">二级标题</a>        <ul>
+          <li><a href="#三级标题" id="markdown-toc-三级标题">三级标题</a></li>
+        </ul>
+      </li>
+      <li><a href="#区段元素" id="markdown-toc-区段元素">区段元素</a></li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<!-- more -->
+
+<h3 id="前言"><strong>前言</strong></h3>
+
+<p>打算写博客的我，发现从简书到CSDN，这两者都提供Markdown编辑器，甚至比起传统的富文本编辑器，它们鼓励使用Markdown编辑器。另外，一些我关注的博主也十分推荐使用Markdown语法写文章，Markdown这个词出现得越发频繁，到底什么是Markdown，Markdown的魅力何在？在好奇心的驱使下，我查找了一些资料，进行了如下总结。</p>
+
+<hr />
+
+<h3 id="什么是markdown"><strong>什么是Markdown？</strong></h3>
+
+<p>Markdown是一种轻量级的标记语言，所谓标记语言就是将文本以及与文本相关的其他信息结合起来，展现出关于文档结构和数据处理细节的电脑文字编码，这些其他信息采用标记进行标识。而轻量级是相对于如HTML等相对复杂的标记语言而言，因为Markdown的语法很简单，常用的标记符号不超过十个。Markdown的目标是实现“易读易写“，Markdown语法的目标是成为一种适用于网络的书写语言，它兼容HTML。<br />
+详细的文档说明可参看：<a href="http://wowubuntu.com/markdown/#autoescape">Markdown语法说明</a></p>
+
+<hr />
+
+<h3 id="为什么要用markdown进行写作"><strong>为什么要用Markdown进行写作？</strong></h3>
+
+<ul>
+  <li>
+    <p>使用方便</p>
+
+    <ul>
+      <li>语法简洁明了，学习容易，使我们专注于文字内容而不是排版。对于操作熟练的宝宝，基本可以手不离键盘。</li>
+      <li>格式多样，Markdown导出格式多样，除了本身的.md文件，可另存为HTML、word、Latex、PDF、epub等格式文件输出。</li>
+      <li>纯文本内容，兼容所有的文本编辑器和字处理软件。</li>
+      <li>平台支持广，github、reddit、stackoverflow，简书，csdn等。</li>
+    </ul>
+  </li>
+  <li>
+    <p>可读性好</p>
+
+    <ul>
+      <li>风格简洁，代码高亮，排版好的文章给人一种优雅的感觉。</li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<h3 id="markdown常用语法介绍"><strong>Markdown常用语法介绍</strong></h3>
+
+<h4 id="区块元素">区块元素</h4>
+
+<ul>
+  <li>段落与换行 <br />
+一个Markdown段落有一个或多个连续的文本行组成，它的前后要有一个以上的空行（空行的定义是看起来像是空的，便会被视为空行，比方说，若是一行只包含空格和制表符，则该行也会被视为空行。普通段落不该用空格或制表符来缩进。</li>
+</ul>
+
+<p>这是官方解释，我感觉有点晦涩，我的理解是分段就是输完这一段的最后一句，连续两次enter再输入下一段，如果想要保持中文中段落首句缩进的格式，可以先将输入法改为全角，再输入两个空格。</p>
+
+<p>如何输入空行？如前所述，因为Markdown兼容HTML，所以可以直接输入<br />，或者输入<code class="highlighter-rouge">&amp;ensp;</code>，注意分号不能丢。</p>
+
+<p><img src="/images/你好,减价!_1.png" alt="这里写图片描述" /></p>
+
+<ul>
+  <li>
+    <p>特殊字符自动转换 <br />
+在HTML文件中有两个字符需要特殊处理：<code class="highlighter-rouge">&lt;</code>和<code class="highlighter-rouge">&amp;</code>。分别用<code class="highlighter-rouge">&amp;lt;</code> <code class="highlighter-rouge">&amp;amp;</code>来代替。</p>
+  </li>
+  <li>
+    <p>标题（类atx形式）</p>
+    <h1 id="一级标题">一级标题</h1>
+    <h2 id="二级标题">二级标题</h2>
+    <h3 id="三级标题">三级标题</h3>
+    <p>以此类推总共六级标题</p>
+  </li>
+</ul>
+
+<p><img src="/images/你好,减价!_2.png" alt="这里写图片描述" /></p>
+
+<ul>
+  <li>区块引用blockquotes <br />
+在整个段落的第一行情最前面加上&gt;，或者在每行的最前面加上&gt;<br />
+引用的区块内可以再叠用其他的markdown语法，包括标题，列表，代码区块等。</li>
+</ul>
+
+<p><img src="/images/你好,减价!_3.png" alt="这里写图片描述" /></p>
+
+<ul>
+  <li>
+    <p>分割线 <br />
+在一行中用三个以上的星号，底线或减号来建立一个分隔线，行内不能有其他东西，也可以在星号或减号中间插入空格。</p>
+  </li>
+  <li>
+    <p>列表 <br />
+分为有序列表和无序列表，无序列表的表示只需要在文字前加上<code class="highlighter-rouge">-</code>或 <code class="highlighter-rouge">*</code>，与有序列表则直接在文字前加<code class="highlighter-rouge">1.</code> <code class="highlighter-rouge">2.</code>
+<code class="highlighter-rouge">3.</code>，注意<code class="highlighter-rouge">-</code>，<code class="highlighter-rouge">*</code>以及序号与文字之间均需加上空格。</p>
+  </li>
+</ul>
+
+<p><img src="/images/你好,减价!_4.png" alt="这里写图片描述" /></p>
+
+<ul>
+  <li>代码区块 <br />
+建立代码区块很简单，只需要简单的缩进4个空格或一个制表符(tab)，或者将<code class="highlighter-rouge"> </code> `置于这段代码的首行和末行</li>
+</ul>
+
+<h2 id="区段元素">区段元素</h2>
+
+<ul>
+  <li>
+    <p>强调 <br />
+使用星号 <em>和底线_作为标记强调字词的符号，用两个</em> 包含一段文本是粗体，用一个_包含是斜体。</p>
+  </li>
+  <li>
+    <p>代码 <br />
+如果要标记一小段行内代码，可以用反引号把它包起来（`）</p>
+  </li>
+  <li>
+    <p>公式 <br />
+<script type="math/tex">公式</script></p>
+  </li>
+</ul>
+
+<p><img src="/images/你好,减价!_5.png" alt="这里写图片描述" /></p>
+
+<ul>
+  <li>图片 <br />
+插入连接与插入图片的语法很像，区别在一个！号<br />
+图片为:！<a href=""> </a>{ImgCap}{/ImgCap}<br />
+链接为: <a href=""> </a></li>
+</ul>
+
+<p>这里，我要插入Markdown语法的官方文档:<a href="http://www.appinn.com/markdown/">Markdown语法说明（简体中文版）</a></p>
+
+<ul>
+  <li>
+    <p>反斜杠</p>
+
+    <div class="highlighter-rouge"><pre class="highlight"><code>\
+`
+*
+_
+{}
+[]
+()
+#
++
+_
+·
+！
+</code></pre>
+    </div>
+  </li>
+</ul>
+
+<hr />
+
+<p>我觉得只需先记忆一些最简单常用的语法，就可以开始使用Markdown编辑器。Markdown的所写即所见，可以很方便的帮助记忆，更复杂高级的用法根据以后的日常学习需求慢慢熟练即可。</p>
+
+<p>起先我下载了马克飞象的Markdown编辑器，可是发现马克飞象需要收费而且并不便宜，然后下载了作业部落的cmd
+Markdown，不过我发现，这两个客户端版的Markdown编辑器都不支持复制粘贴，我想把Onenote写好的部分内容复制粘贴到里面，可是不行！还好CSDN支持┗|｀O′|┛
+嗷~~</p>
+
+<p>总之，这只是一篇关于Markdown的初级介绍，等日后熟练，希望能分享一篇更加详尽复杂的Markdown使用总结与大家探讨交流嘿嘿。</p>
+
+
+          </div>
+          <ul class="pager">
+            <li><a class="btn btn-outline-secondary" href= /%E7%AE%97%E6%B3%95/2016/09/29/The-algorithm-complexity-notes.html#top-page >PREVIOUS</a></li>
+            <li><a class="btn btn-outline-primary" href= /%E7%AE%97%E6%B3%95/2016/10/25/Connection-diagram-algorithm-CGR-(1).html#top-page >NEXT</a></li>
+          </ul>
+        </div><!--end panel-->
+      </div><!--end row-->
+    </div><!-- end container-->
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  </body>
+</html>

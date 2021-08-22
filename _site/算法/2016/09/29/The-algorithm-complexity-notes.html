@@ -1,0 +1,143 @@
+
+<!DOCTYPE html>
+
+<!--FRONT PAGE LAYOUT-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>My Commic!</title>
+
+    <!-- Code highlighting CSS -->
+    <link href="/css/syntax.css" rel="stylesheet">
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for webcomic -->
+    <link href="/css/common.css" rel="stylesheet">
+    <link href="/css/article.css" rel="stylesheet">
+
+    <!--Google Fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Arvo|Fredoka+One|Roboto" rel="stylesheet">
+
+    <!-- Font Awesome-->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+  </head>
+
+  <body>
+
+    <div class="container">
+      <div class="row">
+        <div class="jumbotron">
+          <a href=/><h1>Welcome to Zixuan's Blog</h1></a>
+          <p>Be an excellent and happy Reader, Hiphop Dancer, and Software Engineer!</p>
+        </div>
+
+        <div class="col-md-12 navbar_ov">
+          <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-static-top" role="navigation">
+    
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" >
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href=/index.html>HOMEPAGE</a></li>
+                <li><a href=/archive>ARCHIVE</a></li>
+                <li><a href=/practice.html>PRACTICE</a></li>
+                <li><a href=/about>ABOUT</a></li>
+            </ul>
+        </div>
+    
+</nav>
+
+        </div>
+
+        <div class="col-md-12 panel">
+          <a name="top-page"></a>
+          <h1 class="article">算法复杂度笔记</h1>
+          <br>
+          <p class="date">Thursday, September 29, 2016</p>
+          <br>
+          <br>
+          <div class="article">
+            <ul id="markdown-toc">
+  <li><a href="#空间复杂度sn" id="markdown-toc-空间复杂度sn"><strong>空间复杂度S(n)</strong></a></li>
+  <li><a href="#时间复杂度tn" id="markdown-toc-时间复杂度tn"><strong>时间复杂度T(n)</strong></a></li>
+  <li><a href="#算法评价标准" id="markdown-toc-算法评价标准"><strong>算法评价标准</strong></a></li>
+  <li><a href="#算法度分析小窍门" id="markdown-toc-算法度分析小窍门"><strong>算法度分析小窍门</strong></a></li>
+  <li><a href="#举例" id="markdown-toc-举例"><strong>举例</strong></a></li>
+  <li><a href="#算法度排序" id="markdown-toc-算法度排序"><strong>算法度排序</strong></a></li>
+</ul>
+
+<h2 id="空间复杂度sn"><strong>空间复杂度S(n)</strong></h2>
+
+<p>根据算法写成的程序在执行时占用存储单元的长度。这个长度往往与输入数据的规模有关。空间复杂度过高的算法可能导致使用的内存超限，造成非正常中断。</p>
+
+<!-- more -->
+
+<h2 id="时间复杂度tn"><strong>时间复杂度T(n)</strong></h2>
+
+<p>根据算法写成的程序在执行时耗费时间的长度。这个长度往往也与输入数据的规模有关。时间复杂度过高的低效算法可能导致我们在有生之年都等不到运行结果。</p>
+
+<h2 id="算法评价标准"><strong>算法评价标准</strong></h2>
+
+<p>在分析一般算法的效率时，我们经常关注的是下面两种复杂度：<br />
+最坏情况复杂度  Tworst(n)<br />
+平均复杂度  Tavg(n)</p>
+
+<p>Tavg(n)≤Tavg(n)</p>
+
+<h2 id="算法度分析小窍门"><strong>算法度分析小窍门</strong></h2>
+
+<p><img src="/images/The algorithm complexity notes_1.png" alt="这里写图片描述" /></p>
+
+<h2 id="举例"><strong>举例</strong></h2>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>void printN ( int N )
+{ if ( N ){
+     printN( N-1 );
+     printf("%d\n", N );
+  }
+  return;
+}
+</code></pre>
+</div>
+
+<p><img src="/images/The algorithm complexity notes_2.png" alt="空间复杂度" /></p>
+
+<h2 id="算法度排序"><strong>算法度排序</strong></h2>
+
+<p><img src="/images/The algorithm complexity notes_3.png" alt="这里写图片描述" /></p>
+
+<p><img src="/images/The algorithm complexity notes_4.png" alt="这里写图片描述" /></p>
+
+
+          </div>
+          <ul class="pager">
+            <li><a class="btn btn-outline-secondary" href= /linux/2016/03/28/How-under-the-ubuntu-desktop-login-to-BBB-board.html#top-page >PREVIOUS</a></li>
+            <li><a class="btn btn-outline-primary" href= /%E5%B7%A5%E5%85%B7/2016/10/25/Hello,-markdown!.html#top-page >NEXT</a></li>
+          </ul>
+        </div><!--end panel-->
+      </div><!--end row-->
+    </div><!-- end container-->
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  </body>
+</html>

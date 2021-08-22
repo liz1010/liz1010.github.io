@@ -1,0 +1,208 @@
+
+<!DOCTYPE html>
+
+<!--FRONT PAGE LAYOUT-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>My Commic!</title>
+
+    <!-- Code highlighting CSS -->
+    <link href="/css/syntax.css" rel="stylesheet">
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for webcomic -->
+    <link href="/css/common.css" rel="stylesheet">
+    <link href="/css/article.css" rel="stylesheet">
+
+    <!--Google Fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Arvo|Fredoka+One|Roboto" rel="stylesheet">
+
+    <!-- Font Awesome-->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+  </head>
+
+  <body>
+
+    <div class="container">
+      <div class="row">
+        <div class="jumbotron">
+          <a href=/><h1>Welcome to Zixuan's Blog</h1></a>
+          <p>Be an excellent and happy Reader, Hiphop Dancer, and Software Engineer!</p>
+        </div>
+
+        <div class="col-md-12 navbar_ov">
+          <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-static-top" role="navigation">
+    
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" >
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href=/index.html>HOMEPAGE</a></li>
+                <li><a href=/archive>ARCHIVE</a></li>
+                <li><a href=/practice.html>PRACTICE</a></li>
+                <li><a href=/about>ABOUT</a></li>
+            </ul>
+        </div>
+    
+</nav>
+
+        </div>
+
+        <div class="col-md-12 panel">
+          <a name="top-page"></a>
+          <h1 class="article">连接图算法CGR（二）</h1>
+          <br>
+          <p class="date">Friday, October 28, 2016</p>
+          <br>
+          <br>
+          <div class="article">
+            
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"]],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+
+<script src="https://cdn.bootcdn.net/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+<ul id="markdown-toc">
+  <li><a href="#前言" id="markdown-toc-前言"><strong>前言</strong></a></li>
+  <li><a href="#连接计划" id="markdown-toc-连接计划"><strong>连接计划</strong></a>    <ul>
+      <li><a href="#星间链路isl" id="markdown-toc-星间链路isl"><strong>星间链路（ISL）</strong></a></li>
+      <li><a href="#拓扑应对" id="markdown-toc-拓扑应对"><strong>拓扑应对</strong></a></li>
+      <li><a href="#连接计划设计问题的公式化" id="markdown-toc-连接计划设计问题的公式化"><strong>连接计划设计问题的公式化</strong></a></li>
+      <li><a href="#基于模拟退火的连接计划设计" id="markdown-toc-基于模拟退火的连接计划设计"><strong>基于模拟退火的连接计划设计</strong></a></li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<!-- more -->
+
+<h2 id="前言"><strong>前言</strong></h2>
+
+<p>第二篇论文研究了连接计划的优化问题。如前一篇博客所述，CGR路由中连接图的生成依赖于连接计划，连接计划指的是导航卫星系统中所有卫星的连接信息，由于在GNSS中，由于卫星平台的资源有限，每颗卫星能建立的星间链路是有限的（例如该篇论文在研究问题的时候令一颗卫星一次只能建立一条星间链路），如何确立这些星间链路的建立，形成一个优化的连接计划，以满足星间通信和星间测距的要求，是导航卫星形成的DTN网络中值得重视的问题。</p>
+
+<hr />
+
+<h2 id="连接计划"><strong>连接计划</strong></h2>
+
+<h3 id="星间链路isl"><strong>星间链路（ISL）</strong></h3>
+
+<p>星间链路的建立能够实现星间测距和星间通信，星间测距使得GNSS能够实现自主导航，提高轨道和原子钟的准确度，减少对地面设施的依赖。星间通信可以将GNSS构建成一个全球性的网络。</p>
+
+<p>受卫星星上资源的限制，每一颗卫星能够建立的星间链路是有限的。卫星与卫星之间的可见性也受卫星拓扑结构的影响。星间测距要求尽可能多的卫星之间建立尽可能多的星间链路，以获取更多的测距信息提高自主导航的准确性，而星间通信则需要考虑到卫星导航系统的时变性，两者实际上对连接计划的设计有着不同的导向。</p>
+
+<p>如何生成一个最优化的连接计划，在星间测距和星间通信的需求之间达到一个均衡，是值得研究的问题。</p>
+
+<hr />
+
+<h3 id="拓扑应对"><strong>拓扑应对</strong></h3>
+
+<ul>
+  <li>卫星可见性 <br />
+分两方面考虑，一是不被地球遮挡，二是卫星天线角度的限制，如图所示</li>
+</ul>
+
+<blockquote>
+  <p><img src="/images/Connection diagram algorithm CGR (2)_1.png" alt="这里写图片描述" /></p>
+
+  <p><img src="/images/Connection diagram algorithm CGR (2)_2.png" alt="这里写图片描述" /></p>
+</blockquote>
+
+<p>所以有：</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+2(R+h_S)cosθ<d<2\sqrt{(R+h_s)^2−(R+h_a)} %]]></script>
+
+<ul>
+  <li>基于FSA的拓扑应对</li>
+</ul>
+
+<blockquote>
+  <p><img src="/images/Connection diagram algorithm CGR (2)_3.png" alt="这里写图片描述" /></p>
+</blockquote>
+
+<p>导航卫星周期T分为N个等长的时间间隔，每个时间间隔对应一个FSA状态，当且仅当两个卫星在这个FSA（Finite State
+Automation）状态一直保持可见状态时，才说这两个卫星在这个FSA状态可见， <strong>连接计划的设计基于每个FSA状态的固定可见性。</strong></p>
+
+<p>每个FSA状态分为M个等长的时间间隔，每个时间间隔称为一个连接计划周期cpp（contact plan period），每个cpp又分为K个等长时隙。</p>
+
+<p>导航卫星在不同的时隙中在不同的可见卫星之间建立星间链路。连接计划的设计基于每一个FSA状态，在同一个FSA状态的cpp中，使用的是同一个连接计划。</p>
+
+<hr />
+
+<h3 id="连接计划设计问题的公式化"><strong>连接计划设计问题的公式化</strong></h3>
+
+<blockquote>
+  <p><img src="/images/Connection diagram algorithm CGR (2)_4.png" alt="这里写图片描述" /></p>
+</blockquote>
+
+<p>将连接计划的设计化为一个多限制条件下的最优解问题。优化目标为导航卫星网络的平均时延，这个平均是针对所有的卫星对和所有的时隙。最短传输路径由CGR路由计算得到。<br />
+对约束条件的理解：<br />
+（1） 两颗卫星要建立链路，那么它们一定是可见的。<br />
+（2）一颗卫星在一个时隙内只能建立一条星间链路<br />
+（3）（4）表示对称性约束<br />
+（5）
+在所有时隙中，一个卫星队只能在一个时隙内建立一次星间链路，或者压根不建立链路。这一条能够确保一颗卫星在不同的时隙内和不同的卫星建立星间链路。来满足星间测距的最大数量。</p>
+
+<hr />
+
+<h3 id="基于模拟退火的连接计划设计"><strong>基于模拟退火的连接计划设计</strong></h3>
+
+<p>论文中采用了一种基于模拟退火的启发式算法来应对上述优化问题，来求得次优解。</p>
+
+<p>大体思路：先随机生成一个连接计划，在此基础上生成一个新的连接计划，将两者进行计算和对比，若新连接计划的目标函数小于等于旧连接计划的目标函数，则采取新的连接计划，并降低温度系数T。按此思路不停的迭代，直到达到稳定状态为止。</p>
+
+<blockquote>
+  <p><img src="/images/Connection diagram algorithm CGR (2)_5.png" alt="这里写图片描述" /></p>
+</blockquote>
+
+<hr />
+
+<p><strong>声明：如需转载，请注明出处，蟹蟹！</strong></p>
+
+
+          </div>
+          <ul class="pager">
+            <li><a class="btn btn-outline-secondary" href= /%E7%AE%97%E6%B3%95/2016/10/25/Connection-diagram-algorithm-CGR-(1).html#top-page >PREVIOUS</a></li>
+            <li><a class="btn btn-outline-primary" href= /%E9%9A%8F%E7%AC%94/2016/10/28/The-significance-of-life.html#top-page >NEXT</a></li>
+          </ul>
+        </div><!--end panel-->
+      </div><!--end row-->
+    </div><!-- end container-->
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  </body>
+</html>

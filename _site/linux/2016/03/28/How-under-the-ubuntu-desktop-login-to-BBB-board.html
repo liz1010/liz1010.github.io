@@ -1,0 +1,146 @@
+
+<!DOCTYPE html>
+
+<!--FRONT PAGE LAYOUT-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>My Commic!</title>
+
+    <!-- Code highlighting CSS -->
+    <link href="/css/syntax.css" rel="stylesheet">
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for webcomic -->
+    <link href="/css/common.css" rel="stylesheet">
+    <link href="/css/article.css" rel="stylesheet">
+
+    <!--Google Fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Arvo|Fredoka+One|Roboto" rel="stylesheet">
+
+    <!-- Font Awesome-->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+  </head>
+
+  <body>
+
+    <div class="container">
+      <div class="row">
+        <div class="jumbotron">
+          <a href=/><h1>Welcome to Zixuan's Blog</h1></a>
+          <p>Be an excellent and happy Reader, Hiphop Dancer, and Software Engineer!</p>
+        </div>
+
+        <div class="col-md-12 navbar_ov">
+          <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-static-top" role="navigation">
+    
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" >
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href=/index.html>HOMEPAGE</a></li>
+                <li><a href=/archive>ARCHIVE</a></li>
+                <li><a href=/practice.html>PRACTICE</a></li>
+                <li><a href=/about>ABOUT</a></li>
+            </ul>
+        </div>
+    
+</nav>
+
+        </div>
+
+        <div class="col-md-12 panel">
+          <a name="top-page"></a>
+          <h1 class="article">如何在ubuntu下桌面登录到BBB板</h1>
+          <br>
+          <p class="date">Monday, March 28, 2016</p>
+          <br>
+          <br>
+          <div class="article">
+            
+<p>因为实验需求,需要在俩个BBB板之间建立通信.为方便实验,需要每个板开启多个终端,可是pc通过串口线登入BBB板只有一个终端,由此求诸于进入bbb桌面,开启多个终端.</p>
+
+<!-- more -->
+
+<p>经过资料收集及实践,步骤如下:</p>
+
+<p><strong>准备:</strong></p>
+
+<p>一台PC(ubuntu系统),一个BBB板</p>
+
+<p><strong>步骤:</strong></p>
+
+<p>将BBB通过网线连接到pc所在路由器上,两者可ping通,BBB串口插到pc上.</p>
+
+<ul>
+  <li>BBB:(服务端)</li>
+</ul>
+
+<p>1.由于BBB安装系统为debian7.4(查看版本:lsb_release
+-a),默认安装VNC软件,所以直接执行vncserver命令,按提示配置下密码.注:如果忘记密码或者要更改密码,可通过命令vncpasswd进行重置.</p>
+
+<p>2.给当前用户设置vnc登录密码:$ vncpasswd</p>
+
+<p>3.修改vnc默认设置,使启动时运行gnome作为X的桌面:</p>
+
+<p>$ vncserver :1</p>
+
+<p>$ vncserver: -kill 1</p>
+
+<p>注意：里面的”:1”代表display号，客户登录的时候得写相同的display号才能登录。</p>
+
+<p>4.修改~/.vnc/xstartup文件，建议拷贝系统中Xsession的配置文件：</p>
+
+<p>$ cp /etc/X11/Xsession ~/.vnc/xstartup</p>
+
+<p>$ cp /etc/X11/Xsession ~/.vnc/xstartup</p>
+
+<p>5.再次启动VNC SERVER：</p>
+
+<p>$ vncserver -geometry 1280x800 :1</p>
+
+<p>$ vncserver -geometry 1280x800 :1</p>
+
+<ul>
+  <li>PC:(客户端)</li>
+</ul>
+
+<p>1.在ubuntu操作系统下下载vncviwer软件包:sudo apt-get install xvnc4viewer</p>
+
+<p>2.远程登录BBB板:$ vncviwer IP(BBB):1</p>
+
+<p>OK!</p>
+
+
+          </div>
+          <ul class="pager">
+            <li><a class="btn btn-outline-secondary" href= #top-page >PREVIOUS</a></li>
+            <li><a class="btn btn-outline-primary" href= /%E7%AE%97%E6%B3%95/2016/09/29/The-algorithm-complexity-notes.html#top-page >NEXT</a></li>
+          </ul>
+        </div><!--end panel-->
+      </div><!--end row-->
+    </div><!-- end container-->
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  </body>
+</html>

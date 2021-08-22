@@ -1,0 +1,48 @@
+---
+layout: article
+title: opnet14.5+win10+VS2010安装
+date: 2016-11-04 20:19:00 +0800
+categories: 工具
+tag: opnet
+---
+
+* content
+{:toc}
+
+## 安装问题  
+应科研需求，需要使用Opnet，于是CSDN上找到了Opnet14.5的安装包，由于实验室自己的电脑是win10系统，且已经装有VS2015，因此，虽然没有在网上找到符合条件的安装教程，还是抱着试一试的心态，开始了安装。
+
+<!-- more -->
+
+按步骤装好Opnet之后，因为没有在网上找到有关VS2015的环境变量设置，所以只能根据其他的VS版本如VS2010或VS2008做一些改动，基本包括include、lib环境变量的新建和path环境变量的添加。在运行标准库的时候，即`edit`->`preference`->`network
+simulation repositories`设定为`<stdmod>`时不报错，然而该选项改为默认设置，即`<>`
+时会报各种错误。试了几个project，并且可以肯定工程建模没有问题，但是还是会报错，目前看到的有error LNK 2005、error
+LNK2001、error
+LNK2019等类型错误。猜测可能是因为Opnet与VS联合编译，环境变量设置有问题，所以搜索网上的各种教程，进行了很多尝试的环境变量修改，最后还是无果。
+
+由于网上没有找到关于VS2015的环境变量设置的资料，于是还是决定绕行解决问题，想要将vs安装版本改为VS2010。为了避免出bug，先将VS2015卸载，然后从MSDN上下载了VS2010进行安装，并按一些教程设置了环境变量，再次进行试验，发现Opnet还是会报错，而且基本是一些关于库的链接错误，如error
+LNK2005等等，因为不太懂编译原理方面的知识，只能在网上摸索着找解决方法，找了很久，又试着添加了一些环境变量的设置，仍然没有解决！最后，万般无奈之下，在VS2010基础上重装了Opnet14.5，最后终于不报错了！（喜极而泣）
+
+## 环境变量设置  
+网上有些教程中的环境变量设置比较复杂，经过试验发现基本的设置即可满足要求，我的环境变量设置是这样的：
+
+> **新建include**  
+>  G:\VS2010\VC\include  
+>  C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Include  
+>  G:\opnet\opnetinstall\14.5.A\sys\include  
+>  G:\opnet\opnetinstall\14.5.A\models\std\include
+
+> **新建lib**  
+>  G:\VS2010\VC\lib  
+>  C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Lib  
+>  G:\opnet\opnetinstall\14.5.A\sys\lib  
+>  G:\opnet\opnetinstall\14.5.A\sys\pc_intel_win32\lib
+
+> **path添加**  
+>  G:\VS2010\VC\bin  
+>  G:\VS2010\Common7\IDE  
+>  G:\VS2010\Common7\Tools  
+>  G:\opnet\opnetinstall\14.5.A\sys\pc_intel_win32\bin
+
+根据自己的VS安装路径和Opnet的安装路径进行相应的修改即可。
+

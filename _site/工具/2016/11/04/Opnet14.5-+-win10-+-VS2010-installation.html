@@ -1,0 +1,140 @@
+
+<!DOCTYPE html>
+
+<!--FRONT PAGE LAYOUT-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>My Commic!</title>
+
+    <!-- Code highlighting CSS -->
+    <link href="/css/syntax.css" rel="stylesheet">
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for webcomic -->
+    <link href="/css/common.css" rel="stylesheet">
+    <link href="/css/article.css" rel="stylesheet">
+
+    <!--Google Fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Arvo|Fredoka+One|Roboto" rel="stylesheet">
+
+    <!-- Font Awesome-->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+  </head>
+
+  <body>
+
+    <div class="container">
+      <div class="row">
+        <div class="jumbotron">
+          <a href=/><h1>Welcome to Zixuan's Blog</h1></a>
+          <p>Be an excellent and happy Reader, Hiphop Dancer, and Software Engineer!</p>
+        </div>
+
+        <div class="col-md-12 navbar_ov">
+          <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-static-top" role="navigation">
+    
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" >
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href=/index.html>HOMEPAGE</a></li>
+                <li><a href=/archive>ARCHIVE</a></li>
+                <li><a href=/practice.html>PRACTICE</a></li>
+                <li><a href=/about>ABOUT</a></li>
+            </ul>
+        </div>
+    
+</nav>
+
+        </div>
+
+        <div class="col-md-12 panel">
+          <a name="top-page"></a>
+          <h1 class="article">opnet14.5+win10+VS2010安装</h1>
+          <br>
+          <p class="date">Friday, November 4, 2016</p>
+          <br>
+          <br>
+          <div class="article">
+            <ul id="markdown-toc">
+  <li><a href="#安装问题" id="markdown-toc-安装问题">安装问题</a></li>
+  <li><a href="#环境变量设置" id="markdown-toc-环境变量设置">环境变量设置</a></li>
+</ul>
+
+<h2 id="安装问题">安装问题</h2>
+<p>应科研需求，需要使用Opnet，于是CSDN上找到了Opnet14.5的安装包，由于实验室自己的电脑是win10系统，且已经装有VS2015，因此，虽然没有在网上找到符合条件的安装教程，还是抱着试一试的心态，开始了安装。</p>
+
+<!-- more -->
+
+<p>按步骤装好Opnet之后，因为没有在网上找到有关VS2015的环境变量设置，所以只能根据其他的VS版本如VS2010或VS2008做一些改动，基本包括include、lib环境变量的新建和path环境变量的添加。在运行标准库的时候，即<code class="highlighter-rouge">edit</code>-&gt;<code class="highlighter-rouge">preference</code>-&gt;<code class="highlighter-rouge">network
+simulation repositories</code>设定为<code class="highlighter-rouge">&lt;stdmod&gt;</code>时不报错，然而该选项改为默认设置，即<code class="highlighter-rouge">&lt;&gt;</code>
+时会报各种错误。试了几个project，并且可以肯定工程建模没有问题，但是还是会报错，目前看到的有error LNK 2005、error
+LNK2001、error
+LNK2019等类型错误。猜测可能是因为Opnet与VS联合编译，环境变量设置有问题，所以搜索网上的各种教程，进行了很多尝试的环境变量修改，最后还是无果。</p>
+
+<p>由于网上没有找到关于VS2015的环境变量设置的资料，于是还是决定绕行解决问题，想要将vs安装版本改为VS2010。为了避免出bug，先将VS2015卸载，然后从MSDN上下载了VS2010进行安装，并按一些教程设置了环境变量，再次进行试验，发现Opnet还是会报错，而且基本是一些关于库的链接错误，如error
+LNK2005等等，因为不太懂编译原理方面的知识，只能在网上摸索着找解决方法，找了很久，又试着添加了一些环境变量的设置，仍然没有解决！最后，万般无奈之下，在VS2010基础上重装了Opnet14.5，最后终于不报错了！（喜极而泣）</p>
+
+<h2 id="环境变量设置">环境变量设置</h2>
+<p>网上有些教程中的环境变量设置比较复杂，经过试验发现基本的设置即可满足要求，我的环境变量设置是这样的：</p>
+
+<blockquote>
+  <p><strong>新建include</strong><br />
+ G:\VS2010\VC\include<br />
+ C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Include<br />
+ G:\opnet\opnetinstall\14.5.A\sys\include<br />
+ G:\opnet\opnetinstall\14.5.A\models\std\include</p>
+</blockquote>
+
+<blockquote>
+  <p><strong>新建lib</strong><br />
+ G:\VS2010\VC\lib<br />
+ C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Lib<br />
+ G:\opnet\opnetinstall\14.5.A\sys\lib<br />
+ G:\opnet\opnetinstall\14.5.A\sys\pc_intel_win32\lib</p>
+</blockquote>
+
+<blockquote>
+  <p><strong>path添加</strong><br />
+ G:\VS2010\VC\bin<br />
+ G:\VS2010\Common7\IDE<br />
+ G:\VS2010\Common7\Tools<br />
+ G:\opnet\opnetinstall\14.5.A\sys\pc_intel_win32\bin</p>
+</blockquote>
+
+<p>根据自己的VS安装路径和Opnet的安装路径进行相应的修改即可。</p>
+
+
+          </div>
+          <ul class="pager">
+            <li><a class="btn btn-outline-secondary" href= /%E9%9A%8F%E7%AC%94/2016/10/28/The-significance-of-life.html#top-page >PREVIOUS</a></li>
+            <li><a class="btn btn-outline-primary" href= /%E5%B7%A5%E5%85%B7/2016/12/01/OPNET-learning-summary-(1).html#top-page >NEXT</a></li>
+          </ul>
+        </div><!--end panel-->
+      </div><!--end row-->
+    </div><!-- end container-->
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  </body>
+</html>

@@ -1,0 +1,34 @@
+/* HOMEPAGE STYLES */
+/*=============================*/
+
+.panel p.homepage{
+    font-family: 'Roboto', 'EB Garamond', sans-serif;
+  }
+  
+  .panel h1.homepage {
+    font-size: 30px;
+    line-height: 2.0em;
+    font-weight: regular;
+    font-family: 'Arvo', 'EB Garamond', serif;
+  }
+  
+  .panel h2.homepage {
+    font-size: 20px;
+    font-weight: bold;
+    font-family: 'Arvo', 'EB Garamond', serif;
+    padding: 0px 15px;
+  }
+  
+  .panel ul.homepage {
+     margin-top: 10px;
+  }
+  
+  .panel li.homepage{
+    /* float: left; */
+    font-size: 20px;
+    line-height: 30px;
+    color: #333333;
+    font-family: Arial, Helvetica, sans-serif, "微软雅黑", serif;
+  
+  }
+  

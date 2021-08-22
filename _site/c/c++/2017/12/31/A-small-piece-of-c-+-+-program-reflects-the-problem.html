@@ -1,0 +1,134 @@
+
+<!DOCTYPE html>
+
+<!--FRONT PAGE LAYOUT-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>My Commic!</title>
+
+    <!-- Code highlighting CSS -->
+    <link href="/css/syntax.css" rel="stylesheet">
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for webcomic -->
+    <link href="/css/common.css" rel="stylesheet">
+    <link href="/css/article.css" rel="stylesheet">
+
+    <!--Google Fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Arvo|Fredoka+One|Roboto" rel="stylesheet">
+
+    <!-- Font Awesome-->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+  </head>
+
+  <body>
+
+    <div class="container">
+      <div class="row">
+        <div class="jumbotron">
+          <a href=/><h1>Welcome to Zixuan's Blog</h1></a>
+          <p>Be an excellent and happy Reader, Hiphop Dancer, and Software Engineer!</p>
+        </div>
+
+        <div class="col-md-12 navbar_ov">
+          <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-static-top" role="navigation">
+    
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" >
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href=/index.html>HOMEPAGE</a></li>
+                <li><a href=/archive>ARCHIVE</a></li>
+                <li><a href=/practice.html>PRACTICE</a></li>
+                <li><a href=/about>ABOUT</a></li>
+            </ul>
+        </div>
+    
+</nav>
+
+        </div>
+
+        <div class="col-md-12 panel">
+          <a name="top-page"></a>
+          <h1 class="article">一小段C++程序反映出的问题</h1>
+          <br>
+          <p class="date">Sunday, December 31, 2017</p>
+          <br>
+          <br>
+          <div class="article">
+            
+<div class="highlighter-rouge"><pre class="highlight"><code>#include&lt;string&gt;
+</code></pre>
+</div>
+
+<!-- more -->
+<div class="highlighter-rouge"><pre class="highlight"><code>#include&lt;iostream&gt;
+
+using namespace std;
+
+class A{
+public:
+	A(int n){ value = n; }
+	A(const A&amp; other){ value = other.value; }		
+	//直接调用other的私有成员，这是因为访问权限针对的是类而不是对象，所以在同一个类中，还是可以直接访问私有成员变量的
+	//注意拷贝构造函数的参数不能定义为A(A other)因为这样的话相当于传值，形参复制到实参就会调用拷贝函数，因此会在拷贝构造函数内调用拷贝构造函数，形成无休止的
+	//递归调用而导致栈溢出。
+	void print(){ cout &lt;&lt; value &lt;&lt; endl; }
+private:
+	int value;
+};
+
+
+
+void main(){
+	A a = 10;	//复制初始化，首先调用构造函数A(int n)函数创建一个临时对象，然后调用拷贝构造函数，把这个临时对象作为参数，构造对象a
+	A b = a;	//复制初始化，因为a本就存在，所以直接调用拷贝构造函数，构造对象b
+	b.print();
+	system("PAUSE");
+	return;
+}
+</code></pre>
+</div>
+
+<p>这里涉及到的问题：</p>
+
+<p>构造函数的参数设置</p>
+
+<p>成员变量的访问权限是针对类而不是对象而言</p>
+
+<p>构造函数的调用</p>
+
+
+          </div>
+          <ul class="pager">
+            <li><a class="btn btn-outline-secondary" href= /%E7%AE%97%E6%B3%95/2017/12/03/Using-maximum-matching-with-flower-algorithm-to-solve-general-figure.html#top-page >PREVIOUS</a></li>
+            <li><a class="btn btn-outline-primary" href= /c/c++/2018/01/03/Typedef-with-a-function-pointer.html#top-page >NEXT</a></li>
+          </ul>
+        </div><!--end panel-->
+      </div><!--end row-->
+    </div><!-- end container-->
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  </body>
+</html>

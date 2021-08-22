@@ -14,13 +14,14 @@
     <title>My Commic!</title>
 
     <!-- Code highlighting CSS -->
-    <link href="http://127.0.0.1:4000/css/syntax.css" rel="stylesheet">
+    <link href="/css/syntax.css" rel="stylesheet">
 
     <!-- Bootstrap core CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for webcomic -->
-    <link href="http://127.0.0.1:4000/css/comic.css" rel="stylesheet">
+    <link href="/css/common.css" rel="stylesheet">
+    <link href="/css/article.css" rel="stylesheet">
 
     <!--Google Fonts-->
     <link href="https://fonts.googleapis.com/css?family=Arvo|Fredoka+One|Roboto" rel="stylesheet">
@@ -35,8 +36,8 @@
     <div class="container">
       <div class="row">
         <div class="jumbotron">
-          <a href=http://127.0.0.1:4000/><h1>Welcome to Zixuan's Blog</h1></a>
-          <p>Be an excellent and happy Reader, Hiphop Dancer, and Software Engineer! ^^</p>
+          <a href=/><h1>Welcome to Zixuan's Blog</h1></a>
+          <p>Be an excellent and happy Reader, Hiphop Dancer, and Software Engineer!</p>
         </div>
 
         <div class="col-md-12 navbar_ov">
@@ -54,10 +55,10 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li><a href=http://127.0.0.1:4000/index.html>HOMEPAGE</a></li>
-                <li><a href=http://127.0.0.1:4000/archive>ARCHIVE</a></li>
-                <li><a href=http://127.0.0.1:4000/practice.html>PRACTICE</a></li>
-                <li><a href=http://127.0.0.1:4000/about>ABOUT</a></li>
+                <li><a href=/index.html>HOMEPAGE</a></li>
+                <li><a href=/archive>ARCHIVE</a></li>
+                <li><a href=/practice.html>PRACTICE</a></li>
+                <li><a href=/about>ABOUT</a></li>
             </ul>
         </div>
     
@@ -143,19 +144,16 @@ echo -e 支持转义字符<br />
   2&gt;: 错误输出重定向到文件（覆盖）
   （1/2）»: 表示追加 
   <strong>如果文件不存在</strong>，<strong>会自动创建文件</strong></p>
-    <blockquote>
 
-      <p>&amp;&gt; or &amp;»: 标准输出和错误输出都重定向到一个文件
+    <p>&amp;&gt; or &amp;»: 标准输出和错误输出都重定向到一个文件
   2&gt;&amp;1: 错误重定向到标准正确输出
   1&gt;&amp;2:标准正确输出重定向到错误输出</p>
 
-      <p>将错误输出和标准输出都重定向到文件的另一种方法：
+    <p>将错误输出和标准输出都重定向到文件的另一种方法：
   &gt; filename 2&gt;&amp;1</p>
 
-      <p>特殊文件：
+    <p>特殊文件：
   &gt; /dev/null 数据一旦导入黑洞将无法找回</p>
-
-    </blockquote>
   </li>
   <li>
     <p>输入：
@@ -367,34 +365,28 @@ grep <span class="s2">"sbin/[^n]"</span> file
     <tr>
       <th>字符</th>
       <th>含义</th>
-      <th> </th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>{n,m}</td>
       <td>等同于基本正则表达式\{n,m\}</td>
-      <td> </td>
     </tr>
     <tr>
       <td>+</td>
       <td>匹配前的字符出现一次或多次</td>
-      <td> </td>
     </tr>
     <tr>
       <td>?</td>
       <td>匹配前的字符出现零次或一次</td>
-      <td> </td>
     </tr>
     <tr>
       <td>|</td>
-      <td>匹配逻辑或，匹配</td>
-      <td>前或后的字符串</td>
+      <td>匹配逻辑或，匹配|前或后的字符串</td>
     </tr>
     <tr>
       <td>( )</td>
       <td>匹配正则集合，等同于基本正则表达式的\(\)</td>
-      <td> </td>
     </tr>
   </tbody>
 </table>
@@ -404,14 +396,7 @@ grep <span class="s2">"sbin/[^n]"</span> file
 <h2 id="8-算术运算">8. 算术运算：</h2>
 <p>一些基本运算符号</p>
 <blockquote>
-  <table>
-    <tbody>
-      <tr>
-        <td>++， –， +， -， /, %， **（求幂）， &amp;&amp;，</td>
-        <td> </td>
-      </tr>
-    </tbody>
-  </table>
+  <p>++， –， +， -， /, %， **（求幂）， &amp;&amp;， ||</p>
 </blockquote>
 
 <p>bash中采用的计算方式如下：
@@ -425,8 +410,8 @@ let：使用变量名时，不需要在变量名前面添加$，默认不会输�
 
           </div>
           <ul class="pager">
-            <li><a class="btn btn-outline-secondary" href= http://127.0.0.1:4000/date#top-page >PREVIOUS</a></li>
-            <li><a class="btn btn-outline-primary" href= http://127.0.0.1:4000#top-page >NEXT</a></li>
+            <li><a class="btn btn-outline-secondary" href= /css/2021/02/03/02.html#top-page >PREVIOUS</a></li>
+            <li><a class="btn btn-outline-primary" href= #top-page >NEXT</a></li>
           </ul>
         </div><!--end panel-->
       </div><!--end row-->

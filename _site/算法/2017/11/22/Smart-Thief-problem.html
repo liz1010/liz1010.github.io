@@ -1,0 +1,241 @@
+
+<!DOCTYPE html>
+
+<!--FRONT PAGE LAYOUT-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>My Commic!</title>
+
+    <!-- Code highlighting CSS -->
+    <link href="/css/syntax.css" rel="stylesheet">
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for webcomic -->
+    <link href="/css/common.css" rel="stylesheet">
+    <link href="/css/article.css" rel="stylesheet">
+
+    <!--Google Fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Arvo|Fredoka+One|Roboto" rel="stylesheet">
+
+    <!-- Font Awesome-->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+  </head>
+
+  <body>
+
+    <div class="container">
+      <div class="row">
+        <div class="jumbotron">
+          <a href=/><h1>Welcome to Zixuan's Blog</h1></a>
+          <p>Be an excellent and happy Reader, Hiphop Dancer, and Software Engineer!</p>
+        </div>
+
+        <div class="col-md-12 navbar_ov">
+          <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-static-top" role="navigation">
+    
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" >
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href=/index.html>HOMEPAGE</a></li>
+                <li><a href=/archive>ARCHIVE</a></li>
+                <li><a href=/practice.html>PRACTICE</a></li>
+                <li><a href=/about>ABOUT</a></li>
+            </ul>
+        </div>
+    
+</nav>
+
+        </div>
+
+        <div class="col-md-12 panel">
+          <a name="top-page"></a>
+          <h1 class="article">Smart Thief 问题</h1>
+          <br>
+          <p class="date">Wednesday, November 22, 2017</p>
+          <br>
+          <br>
+          <div class="article">
+            
+<p>问题：</p>
+
+<!-- more -->
+<p><img src="/images/Smart Thief problem_1.png" alt="这里写图片描述" /></p>
+
+<p>实验室的老师发在群里的问题，不知道出处，下面给出一些自己的解答：</p>
+
+<p><strong>方法一：整数规划（只是想求一个结果）</strong><br />
+建模：<br />
+将各房间看成一个变量Xi：X1，X2，…X12<br />
+权重为每个房间的profit：W[i]<br />
+目标：最大化所偷房间的权重和<br />
+限制条件：<br />
+X1+X2&lt;=1,<br />
+X2+X3&lt;=1,<br />
+…<br />
+X12+X1&lt;=1<br />
+Xi属于{0,1}<br />
+（0,1）整数规划问题可以借助excel或其他的一些软件来解，这里采用excel：<br />
+<img src="/images/Smart Thief problem_2.png" alt="这里写图片描述" /></p>
+
+<p><strong>方法2：动态规划</strong><br />
+<img src="/images/Smart Thief problem_3.png" alt="这里写图片描述" /><br />
+如图所示，从上至下，设共有n个房间，形成一个n个数的序列，i表示第i个房间，每个房间的profit为w[i]，Fi表示前i个数的最优收获，则对于第i个房间有两种可能，最优收获方案包括i或不包括i，当i&lt;n时，前i个数中的第一个数和最后一个数不相邻，则有Fi=max（w[i]+F(i-2),F(i-1)）,当i=n时，情况有点特殊，即Fi=max（w[i]+F’(i-2),F[i-1]）,因为这时第n个数与第一个数实际上是相邻的，所以F’(i-2)实际上表示从第二个数开始到第i-2个数的最优方案，所以可以实现一个F函数从第一个数开始递推得到第i个数的最优方案，主函数调用两次该函数求最优，一次是求从第一个数到第n-1个数的最优解，第二次调用时第二个数到第n-2个数的最优解，然后将前者的值与后者加上w[n]的值进行对比。<br />
+F函数总是由前两个状态的值得到第三个状态的解，如果只需要求得最大利润，相当于O(N)的时间复杂度，如果需要求最优方案，则需要维护每次求得的子问题的最优方案的值。<br />
+下面给出了一个简单的C++代码，但是在维护最优方案值上不够高效，时间复杂度为O（N^2）<br />
+(后面想到一种方法，不需要像下面代码那样每次对前两个最优方案的数组进行拷贝，可以实现一个二维数组a[n][n],a[i][j]=0或1，表示第i个数在前j个数的最优方案中是否被包含)</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>#include &lt;vector&gt;
+#include &lt;string&gt;
+#include &lt;algorithm&gt;
+#include &lt;iostream&gt;
+
+using namespace std;
+
+//input:profit array,number of rooms;
+//output:step[],maxprofit;
+
+//step[n] step[i]=0 0r 1, means choose to steal or not respectively
+
+int Max_profit_range(vector&lt;int&gt; profit,vector&lt;int&gt; &amp;step)  //attain the maximum profit and the stepof the input profit array
+    {
+        int n = profit.size();
+        int k1 = profit[0]; 
+        int k2,k3;
+        if (n == 1)    //n为1的特殊情况
+        {
+            step[0] = 0;
+            return profit[0];
+        }
+        vector&lt;int&gt; s1(n);
+        vector&lt;int&gt; s2(n);
+        vector&lt;int&gt; s3(n);
+        int maxprofit = 0;
+        s1[0] = 1;
+        if (profit[0] &gt;= profit[1])
+        { 
+            s2[0] = 1; 
+            s2[1] = 0;
+            k2 = profit[0];
+        }
+        else 
+        {
+            s2[0] = 0;
+            s2[1] = 1;
+            k2 = profit[1];
+        }
+        for (int i = 2; i &lt; n; i++)   
+        {
+            if (profit[i] + k1 &gt;= k2)  //逐渐向后递推，由前两个状态的值得到第三个状态的值
+            {
+                s1[i] = 1;
+                k3 = profit[i] + k1;
+                s3 = s1;
+            }
+            else
+            {
+                k3 = k2;
+                s3 = s2;
+            }
+            k1 = k2;
+            k2 = k3;
+            s1 = s2;
+            s2 = s3;
+        }
+        step =s2;
+        return k3;
+    }
+
+void Max_profit(vector&lt;int&gt; profit)
+    {
+        int n = profit.size();
+        int max_profit=0,step;
+        if (n &lt;= 3)
+        {
+            for (int i = 0; i &lt; n; i++)
+            {
+                if (max_profit &lt; profit[i])
+                {
+                    max_profit = profit[i];
+                    step = i;
+                }
+            }
+            cout &lt;&lt; "the maximum profit is: " &lt;&lt; max_profit &lt;&lt; endl;
+            cout &lt;&lt; "the step is:" &lt;&lt; step+1 &lt;&lt; ":" &lt;&lt; profit[step] &lt;&lt; endl;
+            return;
+        }
+        auto it1 = profit.begin();
+        auto it2 = profit.end();
+        vector&lt;int&gt; profit1(it1 + 1, it2 - 2);
+        vector&lt;int&gt; profit2(it1, it2 - 1);
+        vector&lt;int&gt; step1(n,0),step2(n,0),step3(n,0);
+        int k1, k2; 
+        k1=profit[n-1]+Max_profit_range(profit1, step1);
+        k2=Max_profit_range(profit2, step2);  //调用两次函数，将结果进行对比
+        if (k1&gt;=k2)
+        {
+            cout &lt;&lt; "the maximum profit is " &lt;&lt; k1 &lt;&lt; endl;
+            cout &lt;&lt; "the step is:" &lt;&lt; endl;
+            step3.insert(step3.begin()+1,step1.begin(),step1.end());
+            step3[0] = 1;
+        }
+        else
+        {
+            cout &lt;&lt; "the maximum profit is " &lt;&lt; k2 &lt;&lt; endl;
+            cout &lt;&lt; "the step is:" &lt;&lt; endl;
+            step3=step2;
+            step3.insert(step3.end(), 0);
+        }
+        for (int i = 0; i &lt; n; i++){
+            if (step3[i] == 1)cout &lt;&lt; i+1 &lt;&lt; ":" &lt;&lt; profit[i] &lt;&lt; endl;
+        }
+    }
+
+
+int main()
+{
+    vector&lt;int&gt; profit{ 89, 55, 37, 6, 64, 99, 11, 23, 76, 4, 65, 9};
+    Max_profit(profit);
+    system("PAUSE");
+    return 0;
+}
+</code></pre>
+</div>
+
+<p>结果输出<br />
+<img src="/images/Smart Thief problem_4.png" alt="这里写图片描述" /></p>
+
+
+          </div>
+          <ul class="pager">
+            <li><a class="btn btn-outline-secondary" href= /%E7%AE%97%E6%B3%95/2017/11/22/Leetcode-String%E6%95%B4%E6%95%B0(atoi).html#top-page >PREVIOUS</a></li>
+            <li><a class="btn btn-outline-primary" href= /%E7%AE%97%E6%B3%95/2017/12/03/Using-maximum-matching-with-flower-algorithm-to-solve-general-figure.html#top-page >NEXT</a></li>
+          </ul>
+        </div><!--end panel-->
+      </div><!--end row-->
+    </div><!-- end container-->
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  </body>
+</html>

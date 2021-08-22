@@ -1,0 +1,17 @@
+.panel p.about{
+    font-family: 'Roboto', 'EB Garamond', sans-serif;
+  }
+  
+  .panel h1.about {
+    font-size: 30px;
+    line-height: 2.0em;
+    font-weight: regular;
+    font-family: 'Arvo', 'EB Garamond', serif;
+  }
+  
+  .panel h2.about {
+    font-size: 20px;
+    font-weight: bold;
+    font-family: 'Arvo', 'EB Garamond', serif;
+    padding: 0px 15px;
+  }

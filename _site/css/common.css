@@ -1,6 +1,4 @@
----
----
-/*CSS for comic site*/
+/*CSS for common site*/
 
 body {
   font-family: 'Droid Sans', sans-serif;
@@ -12,6 +10,23 @@ body {
   background-blend-mode: lighten;
 }
 
+table{
+
+  word-wrap:break-word; 
+  word-break:break-all;
+  border-collapse: collapse;
+}
+table th,td{
+
+  padding: 8px;
+  text-align:center;
+}
+table th{
+  background-color: #69a6cc;
+}
+table td{
+background-color: #eaeef7;;
+}
 
 /* HEADER STYLES */
 /*=============================*/
@@ -141,126 +156,7 @@ body {
   color: #248ca8;
 }
 
-/* HOMEPAGE STYLES */
-/*=============================*/
-
-.panel p.homepage{
-  font-family: 'Roboto', 'EB Garamond', sans-serif;
-}
-
-.panel h1.homepage {
-  font-size: 30px;
-  line-height: 2.0em;
-  font-weight: regular;
-  font-family: 'Arvo', 'EB Garamond', serif;
-}
-
-.panel h2.homepage {
-  font-size: 20px;
-  font-weight: bold;
-  font-family: 'Arvo', 'EB Garamond', serif;
-  padding: 0px 15px;
-}
-
-.panel ul.homepage {
-   margin-top: 10px;
-}
-
-.panel li.homepage{
-  /* float: left; */
-  font-size: 20px;
-  line-height: 30px;
-  color: #333333;
-  font-family: Arial, Helvetica, sans-serif, "微软雅黑", serif;
-
-}
 
 
-/* ARCHIVE STYLES */
-/*=============================*/
 
-.panel h1.archive {
-  font-size: 30px;
-  line-height: 2.0em;
-  font-weight: regular;
-  font-family: 'Arvo', 'EB Garamond', serif;
-}
-
-.panel h2.archive {
-  font-size: 20px;
-  font-weight: bold;
-  font-family: 'Arvo', 'EB Garamond', serif;
-  padding: 0px 15px;
-}
-
-.panel ul.archive {
-   margin-top: 10px;
-}
-
-.panel li.archive{
-  /* float: left; */
-  font-size: 20px;
-  line-height: 30px;
-  color: #333333;
-  font-family: Arial, Helvetica, sans-serif, "微软雅黑", serif;
-
-}
-
-
-/* ARTICLE STYLES */
-/*=============================*/
-.panel .article img {
-  display: block;
-  margin: 0 auto;
-  width: 50%; 
-  height: 50%;
-}
-
-.panel .article figure {
-  text-align: center;
-}
-
-/* ARTICLE MARKDOWN STYLES */
-.panel h1.article, .panel .article h1{
-  text-align: center;
-  font-size: 30px;
-  line-height: 2.0em;
-  font-weight: regular;
-  font-family: 'Arvo', 'EB Garamond', serif;
-}
-
-.panel .article p {
-  font-size: 16px;
-  line-height: 1.5em;
-  font-family: 'Roboto', 'EB Garamond', sans-serif;
-}
-
-.panel p.date{
-  font-size: 15px;
-  line-height: 20px;
-  padding: 0;
-  margin: 0;
-  text-align: right;
-  font-style: italic;
-}
-  
-/* ARCHIVE STYLES */
-/*=============================*/
-.panel p.about{
-  font-family: 'Roboto', 'EB Garamond', sans-serif;
-}
-
-.panel h1.about {
-  font-size: 30px;
-  line-height: 2.0em;
-  font-weight: regular;
-  font-family: 'Arvo', 'EB Garamond', serif;
-}
-
-.panel h2.about {
-  font-size: 20px;
-  font-weight: bold;
-  font-family: 'Arvo', 'EB Garamond', serif;
-  padding: 0px 15px;
-}
 

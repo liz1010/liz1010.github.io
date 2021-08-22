@@ -1,0 +1,183 @@
+
+<!DOCTYPE html>
+
+<!--FRONT PAGE LAYOUT-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>My Commic!</title>
+
+    <!-- Code highlighting CSS -->
+    <link href="/css/syntax.css" rel="stylesheet">
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for webcomic -->
+    <link href="/css/common.css" rel="stylesheet">
+    <link href="/css/article.css" rel="stylesheet">
+
+    <!--Google Fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Arvo|Fredoka+One|Roboto" rel="stylesheet">
+
+    <!-- Font Awesome-->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+  </head>
+
+  <body>
+
+    <div class="container">
+      <div class="row">
+        <div class="jumbotron">
+          <a href=/><h1>Welcome to Zixuan's Blog</h1></a>
+          <p>Be an excellent and happy Reader, Hiphop Dancer, and Software Engineer!</p>
+        </div>
+
+        <div class="col-md-12 navbar_ov">
+          <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-static-top" role="navigation">
+    
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" >
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href=/index.html>HOMEPAGE</a></li>
+                <li><a href=/archive>ARCHIVE</a></li>
+                <li><a href=/practice.html>PRACTICE</a></li>
+                <li><a href=/about>ABOUT</a></li>
+            </ul>
+        </div>
+    
+</nav>
+
+        </div>
+
+        <div class="col-md-12 panel">
+          <a name="top-page"></a>
+          <h1 class="article">连接图算法CGR（一）</h1>
+          <br>
+          <p class="date">Tuesday, October 25, 2016</p>
+          <br>
+          <br>
+          <div class="article">
+            <ul id="markdown-toc">
+  <li><a href="#前言" id="markdown-toc-前言"><strong>前言</strong></a></li>
+  <li><a href="#cgr路由算法简介" id="markdown-toc-cgr路由算法简介"><strong>CGR路由算法简介</strong></a></li>
+  <li><a href="#参考文献" id="markdown-toc-参考文献"><strong>参考文献</strong></a></li>
+</ul>
+
+<hr />
+
+<!-- more -->
+
+<h2 id="前言"><strong>前言</strong></h2>
+
+<p>这几天的科研任务需要了解与CGR路由有关的知识，重点阅读了两篇相关论文，想通过写这篇博客将理解的知识进行一下整理，同时也希望给其他想要了解CGR路由算法的童靴提供一点参考信息。这一篇博客重点介绍CGR路由。下一篇博客将会介绍一下连接计划的优化问题。</p>
+
+<hr />
+
+<h2 id="cgr路由算法简介"><strong>CGR路由算法简介</strong></h2>
+
+<p><strong>连接图算法CGR（Contact Graph Routing）</strong></p>
+
+<ul>
+  <li><strong>提出背景</strong></li>
+</ul>
+
+<p>在导航卫星网络中，卫星采用动态调度的指向性天线来实现星间链路，任意时刻，任意两个卫星之间不一定存在端到端路径，卫星之间的连接也不是持续建立的，而是间断连接的。导航卫星网络可以视为一个典型的容断容迟网络。由于传统的地面路由算法假定节点之间有持续的链路连接，而针对移动通信卫星星座的路由算法假设卫星节点之间存在端到端的路径，所以均不适合导航卫星星座。</p>
+
+<p>在导航卫星星座中，导航卫星的链路都是预先规划好的，每颗卫星都可以获得当前和将来的拓扑信息。链路调度通常定义为一颗卫星与其他可见卫星周期性的，顺序的建立星间链路。</p>
+
+<p>NASA喷气式推进实验室的研究人员Burleigh针对延时大、链路间断可用的行星际因特网提出了连接图路由算法CGR，利用已知的连接计划，采用一种启发式的路径计算算法计算路径。CGR可以同时计算多条路径，并考虑了链路带宽的消耗问题。</p>
+
+<ul>
+  <li><strong>连接图路由算法的整个处理流程</strong></li>
+</ul>
+
+<p><img src="/images/Connection diagram algorithm CGR (a)_1.png" alt="这里写图片描述" /></p>
+
+<blockquote>
+
+  <p>连接计划包括连接信息和距离信息。CGR依赖于连接计划生成网络的连接图，提前分发到每个网络节点。随着时间的推进，CGR通过连接计划过程来更新连接计划，比如增加未来的连接机会，并去除过去的连接计划。
+<strong>每个节点，CGR利用一种称为连接检查过程的算法（CRP）在连接图的基础上计算可以转发的邻居节点，并通过一定的策略选择下一跳节点</strong>
+。在下一跳结点，执行相同的处理。</p>
+</blockquote>
+
+<p>（ps：有没有觉得这一段很抽象，只是一个非常概括的描述）</p>
+
+<p>连接图对每个其他节点D包含两个链表：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>* 一个发送者对象链表：起始时间，结束时间，发送节点号，数据传输率，该链表从所有以D为接收节点的连接消息中得出，并按起始时间排序；
+* 一个来源对象链表：包含发送节点号和该节点与节点D的距离，由距离消息得出。
+</code></pre>
+</div>
+
+<p>值得注意的是， <strong>CGR中没有路由表</strong>
+，因为不同时刻到达的束转发路径会有很大的不同。CGR会为每个到达的束根据当前的连接关系计算转发路径。通常，CGR会计算每个束的预计容量消耗ECC，和每个连接机会的残余容量RC，选择路径的时候会判断该路径是否还有足够的链路容量，因此能够避免拥塞的发生。</p>
+
+<ul>
+  <li><strong>伪代码实现</strong></li>
+</ul>
+
+<p>CGR使用了一个启发式的路由算法，通过递归的调用连接检查过程(CRP)来实现路径的计算。如下：</p>
+
+<p><img src="/images/Connection diagram algorithm CGR (a)_2.png" alt="这里写图片描述" /></p>
+
+<p><img src="/images/Connection diagram algorithm CGR (a)_3.png" alt="这里写图片描述" /></p>
+
+<p>为了验证CGR路由算法的有效性，首先进行了CGR路径计算的模拟，仿真设定CGR计算从卫星1-24的路径，为了测试包产生时刻对CGR路由计算结果的影响，每隔3s进行一次路由计算，计算结果如下图所示：</p>
+
+<p><img src="/images/Connection diagram algorithm CGR (a)_4.png" alt="这里写图片描述" /><br />
+（该仿真结果有助于理解CGR算法，及其伪代码实现）</p>
+
+<p>伪代码有点难以理解，查了下关于contact graph routing的源文档，发现理清代码结构就很好理解啦。<br />
+D定义为目的结点，该路由算法采用递归的方式，从最靠近D结点的结点计算起，慢慢得出整条路径。<br />
+初始化应该很好明白，对每一个发送消息到D的节点m（为了打字方便，此处用m代替Mtransmit）进行循环结构判断，分三种情况：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>* m是本地结点
+* m是相邻节点，且已经属于可转发相邻结点集合
+* m是除这两种节点以外的结点
+</code></pre>
+</div>
+
+<p>再根据m的起始时刻，结束时刻，以及束b的路径消耗等来判断是否进行一些信息的更新。</p>
+
+<h2 id="参考文献"><strong>参考文献</strong></h2>
+
+<p>【1】《基于连接图路由算法的导航星座网络路由性能研究》 燕洪成，张庆君，孙勇， 北京空间飞行器总体设计部<br />
+【2】《Contact Graph Routing》 draft-burleigh-dtnrg-cgr-00，July 4，2010</p>
+
+<hr />
+
+<p><strong>声明：如需转载，请注明出处，蟹蟹！</strong></p>
+
+
+          </div>
+          <ul class="pager">
+            <li><a class="btn btn-outline-secondary" href= /%E5%B7%A5%E5%85%B7/2016/10/25/Hello,-markdown!.html#top-page >PREVIOUS</a></li>
+            <li><a class="btn btn-outline-primary" href= /%E7%AE%97%E6%B3%95/2016/10/28/Connection-diagram-algorithm-CGR-(2).html#top-page >NEXT</a></li>
+          </ul>
+        </div><!--end panel-->
+      </div><!--end row-->
+    </div><!-- end container-->
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  </body>
+</html>

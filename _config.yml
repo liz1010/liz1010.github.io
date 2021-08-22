@@ -16,8 +16,8 @@
 title: Welcome to Zixuan's Blog
 tab_title: My Commic! #This text shows up on the browser tab
 email: 1348885093@qq.com
-description: Be an excellent and happy Reader, Hiphop Dancer, and Software Engineer! ^^
-url: "http://127.0.0.1:4000" # the base hostname & protocol for your site
+description: Be an excellent and happy Reader, Hiphop Dancer, and Software Engineer!
+url: "" # the base hostname & protocol for your site
 
 # Comic Social Media
 twitter_username:

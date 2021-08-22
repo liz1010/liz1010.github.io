@@ -1,0 +1,38 @@
+/* ARTICLE STYLES */
+/*=============================*/
+.panel .article img {
+    display: block;
+    margin: 0 auto;
+    width: 50%; 
+    height: 50%;
+  }
+  
+  .panel .article figure {
+    text-align: center;
+  }
+  
+  /* ARTICLE MARKDOWN STYLES */
+  .panel h1.article, .panel .article h1{
+    text-align: center;
+    font-size: 30px;
+    line-height: 2.0em;
+    font-weight: regular;
+    font-family: 'Arvo', 'EB Garamond', serif;
+  }
+  
+  .panel .article p {
+    font-size: 16px;
+    line-height: 1.5em;
+    font-family: 'Roboto', 'EB Garamond', sans-serif;
+  }
+  
+  .panel p.date{
+    font-size: 15px;
+    line-height: 20px;
+    padding: 0;
+    margin: 0;
+    text-align: right;
+    font-style: italic;
+  }
+    
+  

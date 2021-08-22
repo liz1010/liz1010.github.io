@@ -1,0 +1,190 @@
+---
+layout: article
+title: 利用带花树算法解决一般图的最大匹配
+date: 2017-12-03 17:00:33 +0800
+categories: 算法
+tag: 算法
+---
+
+* content
+{:toc}
+
+找了下带花树算法的相关资料，推荐下面两个：  
+
+<!-- more -->
+1\. <https://www-m9.ma.tum.de/graph-algorithms/matchings-blossom-algorithm/index_en.html>  
+对利用带花树算法求解最大匹配的动画演示和伪代码解析，个人认为非常有助于理解  
+2\. <http://www.csie.ntnu.edu.tw/~u91029/Matching.html#5>  
+该网站不仅包含对带花树算法的详细介绍，也对其他一些匹配算法进行了讲解
+
+**关键概念** 
+
+(害怕网站2关闭…所以这里通过截图稍稍介绍一下基本概念)
+
+  * 交错树（增广路径的概念不再做介绍）：如为未匹配点r寻找匹配点，则以r作为树根，由增广路径延伸出来形成交错树 
+  * 奇点与偶点：见图中说明，r为偶点，距r为偶数距离的点为偶点，奇数距离的点为奇点
+  * cross edge：偶点到偶点的边
+
+![这里写图片描述](/images/Using maximum matching with flower algorithm to solve general figure_1.png)
+
+  * 花和花托   
+图中讲解比较详细，注意只有偶点到偶点形成的边构成的环才有这样一个性质，才能形成花，缩花之后奇点实际是以一个偶点的形式存在的。
+
+![这里写图片描述](/images/Using maximum matching with flower algorithm to solve general figure_2.png)
+
+  * 缩花
+
+![这里写图片描述](/images/Using maximum matching with flower algorithm to solve general figure_3.png)
+
+如下基于自身理解，对该网站中包含缩花方式的代码进行了更加详细的注释，虽然有些小细节依然有点模糊，这里放上代码，希望更有助于大家理解。
+
+    
+    
+    const int V=50; //图的点数，编号为0到V-1
+    bool adj[50][50];   //邻接矩阵
+    int p[50];      //交错树,存储前一个节点
+    int m[50];      //记录各点所配对的点，值为-1为未匹配点
+    int d[50];      //是否已访问过，也即是否在交错树中，-1未访问过，0偶点，1奇点
+    int c1[50],c2[50];      //记录花上各奇点所经过的cross edge
+    int q[50],*qf,*qb;      //queue,只放入偶点
+    
+    
+    //并查集森林
+    int pp[50];     //pp[i]存储点i所在的最上层的花的花托，该并查集森林是由缩花构成的森林，树根为最上层的花的花托，pp数组初始化为i
+    
+    int f(int x)
+    {
+        return x==pp[x]? x:(pp[x]=f(pp[x]));        //带压缩路径特点的查找带花树树根
+    }
+    void u(int x,int y)
+    {
+        pp[x]=y;        //缩花时，让花中的点都指向花托
+    }
+    
+    
+    //寻找最底层花的花托
+    int v[50];          //初始值为-1
+    //边xy是cross edge，同时一起往上找LCA，也即花托b
+    //找一次的时间复杂度是O(max(x->b,y->b))
+    int lca(int x,int y,int r)      //r是交叉树的树根
+    {
+        int i=f(x),j=f(y);  //调用f()指最上层的交错树上的节点，而不是已缩花的花中的节点
+        while(i!=j && v[i]!=2 && v[j]!=1)
+        {
+            v[i]=1;v[j]=2;  //从花托分出的两条支路，分别用v[i]=1与v[i]=2进行标记各支路上的点
+            if(i!=r)i=f(p[i]);  //1支路往前一个节点 
+            if(j!=r)j=f(p[j]);  //2支路往前一个节点
+        }
+        int b=i,z=j;
+        if(v[j]==1)swap(b,z);       //点j跑到支路1上，同样的前推速度，说明i支路比j支路短
+        for(i=b;i!=z;i=f(p[i]))v[i]=-1;     //将b前面的v[i]恢复初始值
+        v[z]=-1;
+        return b;
+    }
+    
+    //找到花时，进行缩花操作，边x,y为cross edge,b为花托
+    void contract_one_side(int x,int y,int b)
+    {
+        for(int i=f(x);i!=b;i=f(p[i]))
+        {
+            u(i,b); //缩花，花托成为disjoint forest的树根，所有点的pp[x]均指向树根
+            if(d[i]==1)     //对于任意花中奇点i，c1[i],c2[i]存有所在花的cross edge
+            {
+                c1[i]=x;
+                c2[i]=y;
+                *qb++=i;        //缩花之后，相当于奇点也变成了偶点，所以将奇点均推入队列       
+        }
+    }
+    
+    
+    //进行增广
+    void path(int r,int x)
+    {
+        if(r==x)return;     //递归的边界条件
+        if(d[x]==0)     
+        {
+            path(r,p[p[x]]);    //偶点，将前面的点和前前面的点进行配对
+            int i=p[x],j=p[p[x]];
+            m[i]=j;
+            m[j]=i;
+        }
+        else if(d[x]==1)        //遇到奇点，这种情况就是遇到了花中的奇点
+        {
+            //往回走会经过cross edge c1[x]-c2[x]
+            path(m[x],c1[x]);   //奇点x到c1[x]这一段匹配的改变
+            path(r,c2[x]);      //r到c2[x]这一段匹配的改变，注意r到奇点x这一段的匹配不需要变，所以不应写在path(r,x);
+            int i=c1[x],j=c2[x];        //将cross edge的两个端点进行匹配
+            m[i]=j;
+            m[j]=i;
+        }
+    }
+    
+    //给定一个未匹配点r，建立交错树
+    bool BFS(int r)
+    {
+        //初始化
+        for(int i=0;i<V;i++)pp[i]=i;        
+        memset(v,-1,sizeof(v));     
+        memset(d,-1,sizeof(visit));
+        d[r]=0;     //r标记为偶点
+        qf=qb=q;    //初始化队列指针
+        *qb++=r;    //将r推入队列
+        while (qf < qb)
+        {
+            for (int x=*qf++, y=0; y<V; ++y)    //x为从队列中的偶点，对x的所有的邻居节点进行遍历
+                if (adj[x][y] && m[y] != y)
+                {
+                    if (d[y]==-1)
+                        if(m[y]==-1)        //不在交错树中且为匹配，找到增广路径，进行增广
+                        {
+                            path(r,x);
+                            m[x]=y;m[y]=x;
+                            return true;
+                        }        
+                        else                //y不在交错树中且已匹配，将y和y的匹配点加入交错树，并将其匹配点（偶点）推入队列
+                        {
+                            p[y]=x;p[m[y]]=y;       //延伸交错树
+                            d[y]=1;d[m[y]]=0;       //y作为奇点，y的匹配点作为偶点
+                            *qb++=m[y];     //将偶点推入队列中
+                        }
+                    else 
+                        if(d[f[y]]==0)   //y在交错树上，且y的最上层花托为偶点，进行缩花
+                        {
+                          int b=lca(x,y,r);             //找到x，y在r交错树上的花托
+                          contract_one_side(x,y,b);     //执行cross edge到b一边的缩花
+                          contract_one_side(y,x,b);     //执行cross edge到b另一边的缩花
+                        }
+                        else            //遇到交错树上的奇点，不作处理，继续找下一个邻节点
+                            ;
+                }
+        }
+        return false;
+    }
+    
+    int match(){
+        int m[50];      //记录各点匹配值，值为-1表示未匹配点，m[i]=i，表示找不到匹配点
+        memset(m,-1,size(m));
+        int c=0;
+        for(int i=0;i<N;i++)
+            if(m[i]==-1){
+                if(BFS(i))c++;  //c表示匹配数
+                else m[i]=i;  //该点找不到匹配，从图上删除此点
+            }
+        return c;   
+    
+    }
+    
+    int main()
+    {
+        int x, y;
+        while (cin >> x >> y)
+            adj[x][y] = adj[y][x] = true;
+    
+        cout << "匹配數為" << match();
+        for (int i=0; i<V; ++i)         // 印出所有的匹配邊
+            if (i < m[i])
+                cout << i << ' ' << m[i] << endl;
+    
+        return 0;
+    }
+
