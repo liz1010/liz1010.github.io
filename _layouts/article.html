@@ -38,6 +38,7 @@
         <div class="jumbotron">
           <a href={{ site.url }}/><h1>{{ site.title }}</h1></a>
           <p>{{ site.description }}</p>
+          
         </div>
 
         <div class="col-md-12 navbar_ov">
@@ -48,6 +49,8 @@
           <a name="top-page"></a>
           <h1 class="article">{{ page.title }}</h1>
           <br>
+          {% include article_view_count.html %}
+          <!-- 日期记录 -->
           <p class="date">{{ page.date | date: "%A, %B %-d, %Y"}}</p>
           <br>
           <br>
@@ -61,6 +64,7 @@
         </div><!--end panel-->
       </div><!--end row-->
     </div><!-- end container-->
+    {% include site_view_count.html %}
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
